@@ -1,0 +1,11 @@
+resources:
+  - url: /local/vacuum-card.js
+    type: module
+
+  - url: /local/layout-card.js
+    type: module
+
+title: My Dashboard
+views:
+  - !include dashboard_views/robot_vacuum_view.yaml
+

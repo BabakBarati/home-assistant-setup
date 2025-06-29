@@ -1,0 +1,18 @@
+# Ignore sensitive service account file
+SERVICE_ACCOUNT.json
+
+# Ignore Home Assistant log files
+home-assistant.log
+home-assistant.log.*
+
+# Ignore specific directories
+custom_components/
+
+# Ignore Home Assistant secrets file
+secrets.yaml
+
+# Ignore all hidden files and directories,
+# but re-include the .git directory and .gitignore file itself.
+.*
+!.git/
+!.gitignore

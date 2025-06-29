@@ -1,0 +1,82 @@
+path: robot_vacuum
+icon: mdi:robot-vacuum-variant
+title: Robot Vacuum
+
+# This makes the view itself full width, and removes default card spacing
+type: custom:layout-card
+layout_type: custom:grid-layout # Use grid-layout for the view itself to ensure full width
+layout:
+  grid-template-columns: 1fr # Make the entire view a single column for the layout-card below
+  grid-template-rows: auto # Auto height
+  grid-gap: 5px # Remove any default grid gaps at the view level
+  # Override the default maximum content width of Lovelace for true full width
+  width: 100%
+  max_width: 100%
+
+cards:
+  # This is your main layout-card that will hold the map and vacuum card
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: 60% 40% # Still 60% for map, 40% for vacuum
+      grid-template-areas: |
+        "map_column vacuum_column"
+      grid-gap: 0px # Increased gap for better separation
+      # Align items at the top and make rows stretch to fill space
+      place-items: start stretch # 'stretch' makes items fill their grid area vertically
+      grid-auto-rows: 1fr # This makes rows grow to distribute space equally or fill available space
+
+    cards:
+      - type: picture-entity
+        entity: image.roborock_qrevo_s_home
+        show_state: true
+        show_name: true
+        camera_view: auto
+        fit_mode: cover
+
+      # Right Card (40% width) - Custom Vacuum Card
+      - type: 'custom:vacuum-card'
+        view_layout:
+          grid-area: vacuum_column
+        entity: vacuum.roborock_qrevo_s
+        actions:
+          start:
+            service: vacuum.start
+            service_data:
+              entity_id: vacuum.roborock_qrevo_s
+        stats:
+          default:
+            - entity_id: sensor.roborock_qrevo_s_filter_time_left
+              value_template: '{{ (value | float(0) / 3600) | round(1) }}'
+              unit: h
+              subtitle: Filter
+            - entity_id: sensor.roborock_qrevo_s_side_brush_time_left
+              value_template: '{{ (value | float(0) / 3600) | round(1) }}'
+              unit: h
+              subtitle: Side brush
+            - entity_id: sensor.roborock_qrevo_s_main_brush_time_left
+              value_template: '{{ (value | float(0) / 3600) | round(1) }}'
+              unit: h
+              subtitle: Main brush
+            - entity_id: sensor.roborock_qrevo_s_sensor_time_left
+              value_template: '{{ (value | float(0) / 3600) | round(1) }}'
+              unit: h
+              subtitle: Sensors
+          cleaning:
+            - entity_id: sensor.roborock_qrevo_s_cleaning_area
+              unit: m²
+              subtitle: Cleaning area
+            - entity_id: sensor.roborock_qrevo_s_cleaning_time
+              value_template: '{{ (value | float(0) / 60) | round(1) }}'
+              unit: m
+              subtitle: Cleaning time
+        shortcuts:
+          - name: Clean living room
+            service: script.clean_living_room
+            icon: 'mdi:sofa'
+          - name: Clean bedroom
+            service: script.clean_bedroom
+            icon: 'mdi:bed-empty'
+          - name: Clean kitchen
+            service: script.clean_kitchen
+            icon: 'mdi:silverware-fork-knife'

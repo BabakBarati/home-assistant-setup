@@ -1,0 +1,26 @@
+clean_living_room:
+  alias: "Clean Living Room"
+  sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.roborock_qrevo_s
+        command: app_segment_clean
+        params: [16]
+
+clean_bedroom:
+  alias: "Clean Bedroom"
+  sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.roborock_qrevo_s
+        command: app_segment_clean
+        params: [20]
+
+clean_kitchen:
+  alias: "Clean Kitchen"
+  sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.roborock_qrevo_s
+        command: app_segment_clean
+        params: [5]

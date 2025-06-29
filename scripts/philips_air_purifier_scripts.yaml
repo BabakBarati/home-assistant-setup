@@ -1,0 +1,8 @@
+set_bacteria_mode:
+  alias: "Set Model to Bacteria & Virus"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: bacteria

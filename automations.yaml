@@ -1,0 +1,16 @@
+- id: '1750804738322'
+  alias: New automation
+  description: ''
+  triggers:
+  - domain: mqtt
+    device_id: ec0be889be1499cfe5b05e5f3687aa7f
+    type: action
+    subtype: 'on'
+    trigger: device
+  conditions: []
+  actions:
+  - action: notify.notify
+    metadata: {}
+    data:
+      title: test
+  mode: single

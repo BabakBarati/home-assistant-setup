@@ -1,0 +1,32 @@
+default_config:
+recorder:
+  db_url: !secret homeassistant_db_url
+lovelace:
+  mode: yaml
+
+script: !include_dir_merge_named scripts/
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.19.0.11 # The IP address of your reverse proxy
+    - 172.19.0.19
+  # Optionally, if you have a certificate and want to enforce SSL
+  # ssl_certificate: /config/fullchain.pem
+  # ssl_key: /config/privkey.pem
+
+google_assistant:
+  project_id: home-assistant-tafbar
+  service_account: !include SERVICE_ACCOUNT.json
+  report_state: true
+#mqtt:
+ # broker: mosquitto
+ # port: 1883
+ # username: worker
+ # password: cc9d26234a994d61c797d8e1c9a629f50163b59e46defd05
+#  broker: mosquitto
+#  port: 1883
+#  username: worker
+#  password: cc9d26234a994d61c797d8e1c9a629f50163b59e46defd05
+#  discovery: true
+#  discovery_prefix: homeassistant
