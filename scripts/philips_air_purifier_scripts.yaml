@@ -6,3 +6,74 @@ set_bacteria_mode:
         entity_id: fan.philips_air_purifier
       data:
         preset_mode: bacteria
+  icon: pap:bacteria_virus_mode
+
+set_allergen_mode:
+  alias: "Set Model to Allergen"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: allergen
+  icon: pap:allergen_mode
+
+set_general_mode:
+  alias: "Set Model to General"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: pollution
+  icon: pap:purification_only_mode
+
+set_sleep_mode:
+  alias: "Set Model to Sleep"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: sleep
+  icon: pap:sleep_mode
+
+set_speed_1:
+  alias: "Set Speed to 1"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: speed_1
+  icon: pap:speed_1
+
+set_speed_2: 
+  alias: "Set Speed to 2"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: speed_2
+  icon: pap:speed_2
+
+set_speed_3:
+  alias: "Set Speed to 3"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: speed_3
+  icon: pap:speed_3
+
+set_turbo_mode:
+  alias: "Set Model to Turbo"
+  sequence:
+    - service: fan.set_preset_mode
+      target:
+        entity_id: fan.philips_air_purifier
+      data:
+        preset_mode: turbo
+  icon: pap:speed_3
