@@ -2,13 +2,11 @@
 # You can add this to your ui-lovelace.yaml file or create a new dashboard
 # and add this as a raw configuration.
 
-title: My Custom Cards
+title: Philips Air Purifier Test View
+icon: pap:purification_only_mode
 path: air_purifier_test_view
 cards:
   - type: custom:air-purifier-card
-    # You can add any configuration options here if your card supported them.
-    # For example:
-    # entity: sensor.air_purifier_status
     name: Living Room Air Purifier
     icon: mdi:air-filter
     device_name: philips_air_purifier

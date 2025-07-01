@@ -6,11 +6,9 @@ lovelace:
   resources:
     - url: /local/vacuum-card.js
       type: module
-
     - url: /local/layout-card.js
       type: module
-
-    - url: /local/air-purifier-card.js?v=1.0.9
+    - url: /local/air-purifier-card.js?v=1.0.1
       type: module
 
 script: !include_dir_merge_named scripts/
@@ -28,14 +26,3 @@ google_assistant:
   project_id: home-assistant-tafbar
   service_account: !include SERVICE_ACCOUNT.json
   report_state: true
-#mqtt:
- # broker: mosquitto
- # port: 1883
- # username: worker
- # password: cc9d26234a994d61c797d8e1c9a629f50163b59e46defd05
-#  broker: mosquitto
-#  port: 1883
-#  username: worker
-#  password: cc9d26234a994d61c797d8e1c9a629f50163b59e46defd05
-#  discovery: true
-#  discovery_prefix: homeassistant
