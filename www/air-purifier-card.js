@@ -148,8 +148,8 @@ class AirPurifierCard extends HTMLElement {
         this._hass = hass; // Store the hass object
         if (this._config && this._config.device_name) {
             const normalizedDeviceName = this._config.device_name ? this._config.device_name.toLowerCase().split(' ').join('_') : '';
-            _handleEntityName(normalizedDeviceName);
-            _handleMode(normalizedDeviceName);
+            this._handleEntityName(normalizedDeviceName);
+            this._handleMode(normalizedDeviceName);
         } else {
             this._deviceNameDisplay.textContent = 'No entity configured'; // Fallback if no entity in config
         }
