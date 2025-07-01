@@ -1,4 +1,5 @@
 title: My Dashboard
 views:
   - !include dashboard_views/robot_vacuum_view.yaml
+  - !include dashboard_views/air_prurifier_test_view.yaml
 

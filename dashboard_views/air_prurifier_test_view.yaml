@@ -1,0 +1,17 @@
+# This is a basic Home Assistant Lovelace dashboard view configuration.
+# You can add this to your ui-lovelace.yaml file or create a new dashboard
+# and add this as a raw configuration.
+
+title: My Custom Cards
+path: air_purifier_test_view
+cards:
+  - type: custom:air-purifier-card
+    # You can add any configuration options here if your card supported them.
+    # For example:
+    # entity: sensor.air_purifier_status
+    name: Living Room Air Purifier
+    icon: mdi:air-filter
+    device_name: philips_air_purifier
+    show_name: true
+    show_air_quality_metrics: true
+    show_percentage: false
