@@ -3,6 +3,12 @@ recorder:
   db_url: !secret homeassistant_db_url
 lovelace:
   mode: yaml
+  resources:
+    - url: /local/vacuum-card.js
+      type: module
+
+    - url: /local/layout-card.js
+      type: module
 
 script: !include_dir_merge_named scripts/
 
