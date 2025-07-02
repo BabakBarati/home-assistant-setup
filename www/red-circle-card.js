@@ -293,6 +293,7 @@ class RedCircleCard extends HTMLElement {
                     newCircle.style.top = `${this.containerCenterY}px`;
                     newCircle.style.opacity = '1';
 
+                    // Add the pap:speed_2 icon to the new small circle
                     newCircle.innerHTML = `<ha-icon icon="${icon}"></ha-icon>`;
 
                     this.circleContainer.appendChild(newCircle);
@@ -310,12 +311,12 @@ class RedCircleCard extends HTMLElement {
                             newCircle.style.top = `${finalTopCenter}px`;
                         });
                     });
-                }
+                });
             // After creating circles, allow a short delay before resetting the flag
             // to prevent immediate re-triggering, but still allow interaction after motion starts.
             setTimeout(() => {
-                    this._isAnimating = false;
-                }, 600); // Match animation duration
+                this._isAnimating = false;
+            }, 600); // Match animation duration
         }
     }
 
