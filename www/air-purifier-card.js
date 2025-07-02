@@ -176,8 +176,8 @@ class AirPurifierCard extends HTMLElement {
     _handleMode(normalizedDeviceName) {
         const fanEntityId = `fan.${normalizedDeviceName}`;
         const state = this._hass.states[fanEntityId];
-        if (state && state.attributes && state.attributes.mode) {
-            const mode = state.attributes.mode;
+        if (state && state.attributes && state.attributes.preset_mode) {
+            const mode = state.attributes.preset_mode;
             // You can add logic here to handle different modes if needed
             console.log(`Current mode for ${fanEntityId}: ${mode}`);
         } else {
