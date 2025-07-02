@@ -165,7 +165,7 @@ class AirPurifierCard extends HTMLElement {
                 this._deviceNameDisplay.textContent = fanEntity.attributes.name;
             }
             if (fanEntity.attributes.icon) {
-                this._modeIcon.attributes.icon = fanEntity.attributes.icon;
+                this._modeIcon.setAttribute("icon", fanEntity.attributes.icon);
             }
         }
         else {
