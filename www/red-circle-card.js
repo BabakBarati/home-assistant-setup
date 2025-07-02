@@ -189,7 +189,7 @@ class RedCircleCard extends HTMLElement {
         }
         if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_mode) {
             this._selectedMode = fanEntity.attributes.preset_mode;
-            _setSelectedModeIcon(this._selectedMode); // Set the icon based on the selected mode
+            this._setSelectedModeIcon(this._selectedMode); // Set the icon based on the selected mode
         } else {
             this._selectedMode = 'unknown'; // Default to unknown if no mode is set
             console.warn('RedCircleCard: No preset_mode found in fan entity attributes.'); // Warning log
