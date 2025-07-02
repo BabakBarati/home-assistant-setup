@@ -9,7 +9,7 @@ cards:
   - type: custom:air-purifier-card
     name: Living Room Air Purifier
     icon: mdi:air-filter
-    device_name: philips_air_purifier
+    entity_id: fan.philips_air_purifier
     show_name: true
     show_air_quality_metrics: true
     show_percentage: false

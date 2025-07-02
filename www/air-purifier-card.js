@@ -82,7 +82,7 @@ class AirPurifierCard extends HTMLElement {
                 }
             </style>
             <div id="entity-name-display" class="entity-name-display">
-                <ha-icon icon="pap:allergen_mode"></ha-icon>
+                <ha-icon id="mode_icon" icon=""></ha-icon>
                 <span id="friendly-name-text"></span>
             </div>
             <div class="image-container">
@@ -106,6 +106,7 @@ class AirPurifierCard extends HTMLElement {
         this._carbonFilter = this.shadowRoot.getElementById('carbon-filter');
         this._hepaFilter = this.shadowRoot.getElementById('hepa-filter');
         this._deviceNameDisplay = this.shadowRoot.getElementById('friendly-name-text'); // New element reference
+        this._modeIcon = this.shadowRoot.getElementById('mode-icon'); // Reference to the icon element
 
         // Define animation distances
         this._squaresToAnimate = [
@@ -147,7 +148,7 @@ class AirPurifierCard extends HTMLElement {
     set hass(hass) {
         this._hass = hass; // Store the hass object
         if (this._config && this._config.device_name) {
-            const normalizedDeviceName = this._config.device_name ? this._config.device_name.toLowerCase().split(' ').join('_') : '';
+            const normalizedDeviceName = this._config.entity_id ? this._config.device_name.split('fan.')[1] : '';
             this._handleEntityName(normalizedDeviceName);
             this._handleMode(normalizedDeviceName);
         } else {
@@ -157,9 +158,15 @@ class AirPurifierCard extends HTMLElement {
 
     _handleEntityName(normalizedDeviceName) {
         const fanEntityId = `fan.${normalizedDeviceName}`;
-        const state = this._hass.states[fanEntityId];
-        if (state && state.attributes && state.attributes.friendly_name) {
-            this._deviceNameDisplay.textContent = state.attributes.friendly_name;
+        const fanEntity = this._hass.states[fanEntityId];
+
+        if (fanEntity && fanEntity.attributes) {
+            if (fanEntity.attributes.name) {
+                this._deviceNameDisplay.textContent = fanEntity.attributes.name;
+            }
+            if (fanEntity.attributes.icon) {
+                this._mode_icon.attributes.icon = fanEntity.attributes.icon;
+            }
         }
         else {
             this._deviceNameDisplay.textContent = `Entity not found: ${fanEntityId}`; // Fallback if entity not found
