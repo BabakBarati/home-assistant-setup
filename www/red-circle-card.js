@@ -232,6 +232,7 @@ class RedCircleCard extends HTMLElement {
             name: preFilterSensor.attributes.friendly_name || 'Active Carbon Filter',
             type: preFilterSensor.attributes.type || 'unknown',
             value: preFilterSensor.state || 'N/A',
+            percentage: `${Math.round((parseFloat(preFilterSensor.state)/4800 || 0) * 100)}%`,
             unit: preFilterSensor.attributes.unit_of_measurement || '',
             icon: preFilterSensor.attributes.icon || 'mdi:filter'
         });
@@ -239,6 +240,7 @@ class RedCircleCard extends HTMLElement {
             name: activeCarbonFilterSensor.attributes.friendly_name || 'Active Carbon Filter',
             type: activeCarbonFilterSensor.attributes.type || 'unknown',
             value: activeCarbonFilterSensor.state || 'N/A',
+            percentage: `${Math.round((parseFloat(activeCarbonFilterSensor.state)/4800 || 0) * 100)}%`,
             unit: activeCarbonFilterSensor.attributes.unit_of_measurement || '',
             icon: activeCarbonFilterSensor.attributes.icon || 'mdi:filter'
         });
@@ -246,6 +248,7 @@ class RedCircleCard extends HTMLElement {
             name: hepaFilterSensor.attributes.friendly_name || 'Hepa Filter',
             type: hepaFilterSensor.attributes.type || 'unknown',
             value: hepaFilterSensor.state || 'N/A',
+            percentage: `${Math.round((parseFloat(hepaFilterSensor.state)/4800 || 0) * 100)}%`,
             unit: hepaFilterSensor.attributes.unit_of_measurement || '',
             icon: hepaFilterSensor.attributes.icon || 'mdi:filter'
         });
