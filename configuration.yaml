@@ -10,7 +10,7 @@ lovelace:
       type: module
     - url: /local/air-purifier-card.js?v=1.0.10
       type: module
-    - url: /local/red-circle-card.js?v=1.0.13
+    - url: /local/red-circle-card.js?v=1.0.14
       type: module
 
 script: !include_dir_merge_named scripts/

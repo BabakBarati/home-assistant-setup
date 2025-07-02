@@ -1,4 +1,14 @@
 class RedCircleCard extends HTMLElement {
+    _modeToIconMap = new Map([
+        ["pollution", "pollution_mode"],
+        ["allergen", "allergen_mode"],
+        ["bacteria", "bacteria_virus_mode"],
+        ["sleep", "sleep_mode"],
+        ["speed_1", "speed_1"],
+        ["speed_2", "speed_2"],
+        ["speed_3", "speed_3"],
+        ["turbo", "fan_speed_button"]
+    ]);
     constructor() {
         super();
         console.log('RedCircleCard: Constructor called.'); // Debug log
@@ -80,12 +90,10 @@ class RedCircleCard extends HTMLElement {
                 <div class="circle-container">
                     <!-- Main Red Circle -->
                     <div id="mainCircle" class="circle">
-                        <ha-icon icon="pap:allergen_mode"></ha-icon>
+                        <ha-icon icon=""></ha-icon>
                     </div>
                 </div>
             `;
-
-            this._selectedMode;
 
             // Define properties for the new circles (these are instance properties now)
             this.numberOfNewCircles = 7;
@@ -177,14 +185,33 @@ class RedCircleCard extends HTMLElement {
 
     _handleMode(fanEntity) {
         if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_modes) {
-            this._presetModes = fanEntity.attributes.preset_modes;
-            console.log('RedCircleCard: Preset modes found:', this._presetModes); // Debug log
+            this._allModes = fanEntity.attributes.preset_modes;
         }
         if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_mode) {
             this._selectedMode = fanEntity.attributes.preset_mode;
+            _setSelectedModeIcon(this._selectedMode); // Set the icon based on the selected mode
         } else {
             this._selectedMode = 'unknown'; // Default to unknown if no mode is set
             console.warn('RedCircleCard: No preset_mode found in fan entity attributes.'); // Warning log
+        }
+    }
+
+    _getModeIcon(mode) {
+        return `pap:${this._modeToIconMap.get(mode) || 'circle'}`;
+    }
+
+    _setSelectedModeIcon(mode) {
+        const icon = this._getModeIcon(mode);
+        if (this.mainCircle) {
+            const iconElement = this.mainCircle.querySelector('ha-icon');
+            if (iconElement) {
+                iconElement.setAttribute('icon', icon);
+                console.log(`RedCircleCard: Icon set to ${icon}`); // Debug log
+            } else {
+                console.error('RedCircleCard: ha-icon element not found in mainCircle!'); // Error log
+            }
+        } else {
+            console.error('RedCircleCard: mainCircle element not found when setting icon!'); // Error log
         }
     }
 
@@ -249,43 +276,46 @@ class RedCircleCard extends HTMLElement {
         } else {
             this._clearNewCircles(); // Ensure no lingering circles from previous states
 
-            for (let i = 0; i < this.numberOfNewCircles; i++) {
-                const newCircle = document.createElement('div');
-                newCircle.classList.add(
-                    'circle',
-                    'new-circle'
-                );
-                newCircle.style.width = `${this.newCircleDiameter}px`;
-                newCircle.style.height = `${this.newCircleDiameter}px`;
+            this._allModes
+                .filter(mode => mode !== this._selectedMode)
+                .forEach((mode, i) => {
+                    const icon = this._getModeIcon(mode);
 
-                newCircle.style.left = `${this.containerCenterX}px`;
-                newCircle.style.top = `${this.containerCenterY}px`;
-                newCircle.style.opacity = '1';
+                    const newCircle = document.createElement('div');
+                    newCircle.classList.add(
+                        'circle',
+                        'new-circle'
+                    );
+                    newCircle.style.width = `${this.newCircleDiameter}px`;
+                    newCircle.style.height = `${this.newCircleDiameter}px`;
 
-                // Add the pap:speed_2 icon to the new small circle
-                newCircle.innerHTML = '<ha-icon icon="pap:speed_2"></ha-icon>';
+                    newCircle.style.left = `${this.containerCenterX}px`;
+                    newCircle.style.top = `${this.containerCenterY}px`;
+                    newCircle.style.opacity = '1';
 
-                this.circleContainer.appendChild(newCircle);
+                    newCircle.innerHTML = `<ha-icon icon="${icon}"></ha-icon>`;
 
-                const angle = (i / this.numberOfNewCircles) * 2 * Math.PI;
-                const xOffset = this.distributionRadius * Math.cos(angle);
-                const yOffset = this.distributionRadius * Math.sin(angle);
+                    this.circleContainer.appendChild(newCircle);
 
-                const finalLeftCenter = this.containerCenterX + xOffset;
-                const finalTopCenter = this.containerCenterY + yOffset;
+                    const angle = (i / this.numberOfNewCircles) * 2 * Math.PI;
+                    const xOffset = this.distributionRadius * Math.cos(angle);
+                    const yOffset = this.distributionRadius * Math.sin(angle);
 
-                requestAnimationFrame(() => {
+                    const finalLeftCenter = this.containerCenterX + xOffset;
+                    const finalTopCenter = this.containerCenterY + yOffset;
+
                     requestAnimationFrame(() => {
-                        newCircle.style.left = `${finalLeftCenter}px`;
-                        newCircle.style.top = `${finalTopCenter}px`;
+                        requestAnimationFrame(() => {
+                            newCircle.style.left = `${finalLeftCenter}px`;
+                            newCircle.style.top = `${finalTopCenter}px`;
+                        });
                     });
-                });
-            }
+                }
             // After creating circles, allow a short delay before resetting the flag
             // to prevent immediate re-triggering, but still allow interaction after motion starts.
             setTimeout(() => {
-                this._isAnimating = false;
-            }, 600); // Match animation duration
+                    this._isAnimating = false;
+                }, 600); // Match animation duration
         }
     }
 
