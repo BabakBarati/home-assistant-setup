@@ -82,7 +82,7 @@ class AirPurifierCard extends HTMLElement {
                 }
             </style>
             <div id="entity-name-display" class="entity-name-display">
-                <ha-icon id="mode_icon" icon=""></ha-icon>
+                <ha-icon id="mode-icon" icon=""></ha-icon>
                 <span id="friendly-name-text"></span>
             </div>
             <div class="image-container">
