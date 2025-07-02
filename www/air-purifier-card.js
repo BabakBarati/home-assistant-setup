@@ -147,8 +147,8 @@ class AirPurifierCard extends HTMLElement {
     // Home Assistant Lovelace calls this method to pass the hass object (state)
     set hass(hass) {
         this._hass = hass; // Store the hass object
-        if (this._config && this._config.device_name) {
-            const normalizedDeviceName = this._config.entity_id ? this._config.device_name.split('fan.')[1] : '';
+        if (this._config && this._config.entity_id) {
+            const normalizedDeviceName = this._config.entity_id ? this._config.entity_id.split('fan.')[1] : '';
             this._handleEntityName(normalizedDeviceName);
             this._handleMode(normalizedDeviceName);
         } else {
