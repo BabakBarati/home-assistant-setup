@@ -95,8 +95,6 @@ class RedCircleCard extends HTMLElement {
                 </div>
             `;
 
-            // Define properties for the new circles (these are instance properties now)
-            this.numberOfNewCircles = 7;
             this.newCircleDiameter = 30; // Diameter of the smaller circles in pixels (unchanged)
 
             // Updated mainCircleRadius for 50px diameter
@@ -176,8 +174,9 @@ class RedCircleCard extends HTMLElement {
         this._hass = hass; // Store the hass object
         if (this._config && this._config.entity_id) {
             const normalizedDeviceName = this._config.entity_id ? this._config.entity_id.split('fan.')[1] : '';
-            const fanEntity = this._hass.states[this._config.entity_id];
-            this._handleMode(fanEntity);
+            this._handleMode(this._hass.states[this._config.entity_id]);
+            this._handleSensors(normalizedDeviceName);
+
         } else {
             this._deviceNameDisplay.textContent = 'No entity configured'; // Fallback if no entity in config
         }
@@ -186,6 +185,7 @@ class RedCircleCard extends HTMLElement {
     _handleMode(fanEntity) {
         if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_modes) {
             this._allModes = fanEntity.attributes.preset_modes;
+            this._numberOfNewCircles = this._allModes.length - 1;
         }
         if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_mode) {
             this._selectedMode = fanEntity.attributes.preset_mode;
@@ -194,6 +194,63 @@ class RedCircleCard extends HTMLElement {
             this._selectedMode = 'unknown'; // Default to unknown if no mode is set
             console.warn('RedCircleCard: No preset_mode found in fan entity attributes.'); // Warning log
         }
+    }
+
+    _handleSensors(deviceName) {
+        this._sensors = new Map();
+
+        const indoorAllergenIndexSensor = this._hass.states[`sensor.${deviceName}_indoor_allergen_index`];
+        const pm2_5Sensor = this._hass.states[`sensor.${deviceName}_pm2_5`];
+        const vocSensor = this._hass.states[`sensor.${deviceName}_total_volatile_organic_compounds`];
+
+        const _rssiSensor = this._hass.states[`sensor.${deviceName}_rssi`];
+
+        const preFilterSensor = this._hass.states[`sensor.${deviceName}_pre_filter`];
+        const activeCarbonFilterSensor = this._hass.states[`sensor.${deviceName}_active_carbon_filter`];
+        const hepaFilterSensor = this._hass.states[`sensor.${deviceName}_hepa_filter`];
+
+        this._sensors.set('iai', {
+            name: indoorAllergenIndexSensor.attributes.friendly_name || 'Indoor Allergen Index',
+            value: indoorAllergenIndexSensor.state || 'N/A',
+        });
+        this._sensors.set('pm2_5', {
+            name: pm2_5Sensor.attributes.friendly_name || 'PM2.5',
+            value: pm2_5Sensor.state || 'N/A',
+            unit: pm2_5Sensor.attributes.unit_of_measurement || '',
+        });
+        this._sensors.set('voc', {
+            name: vocSensor.attributes.friendly_name || 'Volatile Organic Compounds',
+            value: vocSensor.state || 'N/A',
+            unit: vocSensor.attributes.unit_of_measurement || '',
+        });
+        this._sensors.set('rssi', {
+            name: _rssiSensor.attributes.friendly_name || 'RSSI',
+            value: _rssiSensor.state || 'N/A',
+            unit: _rssiSensor.attributes.unit_of_measurement || '',
+        });
+        this._sensors.set('pre_filter', {
+            name: preFilterSensor.attributes.friendly_name || 'Active Carbon Filter',
+            type: preFilterSensor.attributes.type || 'unknown',
+            value: preFilterSensor.state || 'N/A',
+            unit: preFilterSensor.attributes.unit_of_measurement || '',
+            icon: preFilterSensor.attributes.icon || 'mdi:filter'
+        });
+        this._sensors.set('carbon_filter', {
+            name: activeCarbonFilterSensor.attributes.friendly_name || 'Active Carbon Filter',
+            type: activeCarbonFilterSensor.attributes.type || 'unknown',
+            value: activeCarbonFilterSensor.state || 'N/A',
+            unit: activeCarbonFilterSensor.attributes.unit_of_measurement || '',
+            icon: activeCarbonFilterSensor.attributes.icon || 'mdi:filter'
+        });
+        this._sensors.set('hepa_filter', {
+            name: hepaFilterSensor.attributes.friendly_name || 'Hepa Filter',
+            type: hepaFilterSensor.attributes.type || 'unknown',
+            value: hepaFilterSensor.state || 'N/A',
+            unit: hepaFilterSensor.attributes.unit_of_measurement || '',
+            icon: hepaFilterSensor.attributes.icon || 'mdi:filter'
+        });
+
+        console.log('RedCircleCard: Sensors handled:', this._sensors); // Debug log
     }
 
     _getModeIcon(mode) {
@@ -298,7 +355,7 @@ class RedCircleCard extends HTMLElement {
 
                     this.circleContainer.appendChild(newCircle);
 
-                    const angle = (i / this.numberOfNewCircles) * 2 * Math.PI;
+                    const angle = (i / this._numberOfNewCircles) * 2 * Math.PI;
                     const xOffset = this.distributionRadius * Math.cos(angle);
                     const yOffset = this.distributionRadius * Math.sin(angle);
 
