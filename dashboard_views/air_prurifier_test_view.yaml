@@ -13,3 +13,7 @@ cards:
     show_name: true
     show_air_quality_metrics: true
     show_percentage: false
+  - type: custom:red-circle-card
+    name: Red Circle test
+    icon: mdi:air-filter
+    
