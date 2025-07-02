@@ -52,7 +52,7 @@ class RedCircleCard extends HTMLElement {
                         /* Center the main circle using top/left 50% and transform */
                         top: 50%;
                         left: 50%;
-                        z-index: 10; /* Put the main circle on top */
+                        z-index: 1;
                     }
 
                     /* Styling for the new smaller circles */
@@ -60,7 +60,6 @@ class RedCircleCard extends HTMLElement {
                         background-color: #ffffff; /* Changed to white */
                         border: 2px solid #000000; /* Added black 2px border */
                         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Shadow */
-                        z-index: 5; /* Put the new circles behind the main circle */
                         display: flex; /* To center the icon */
                         align-items: center; /* To center the icon */
                         justify-content: center; /* To center the icon */
@@ -85,6 +84,8 @@ class RedCircleCard extends HTMLElement {
                     </div>
                 </div>
             `;
+
+            this._selectedMode;
 
             // Define properties for the new circles (these are instance properties now)
             this.numberOfNewCircles = 7;
@@ -153,11 +154,37 @@ class RedCircleCard extends HTMLElement {
 
     // Standard Home Assistant custom card method to receive configuration
     setConfig(config) {
-        console.log('RedCircleCard: setConfig called.', config); // Debug log updated
         try {
             this._config = config;
+            if (this._hass) {
+                this.hass = this._hass; // Re-run hass setter to update content
+            }
         } catch (e) {
-            console.error('RedCircleCard: Error in setConfig:', e); // Debug log updated
+            console.error('RedCircleCard: Error in setConfig:', e);
+        }
+    }
+
+    set hass(hass) {
+        this._hass = hass; // Store the hass object
+        if (this._config && this._config.entity_id) {
+            const normalizedDeviceName = this._config.entity_id ? this._config.entity_id.split('fan.')[1] : '';
+            const fanEntity = this._hass.states[this._config.entity_id];
+            this._handleMode(fanEntity);
+        } else {
+            this._deviceNameDisplay.textContent = 'No entity configured'; // Fallback if no entity in config
+        }
+    }
+
+    _handleMode(fanEntity) {
+        if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_modes) {
+            this._presetModes = fanEntity.attributes.preset_modes;
+            console.log('RedCircleCard: Preset modes found:', this._presetModes); // Debug log
+        }
+        if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_mode) {
+            this._selectedMode = fanEntity.attributes.preset_mode;
+        } else {
+            this._selectedMode = 'unknown'; // Default to unknown if no mode is set
+            console.warn('RedCircleCard: No preset_mode found in fan entity attributes.'); // Warning log
         }
     }
 

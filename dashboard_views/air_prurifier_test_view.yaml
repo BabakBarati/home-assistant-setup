@@ -16,4 +16,4 @@ cards:
   - type: custom:red-circle-card
     name: Red Circle test
     icon: mdi:air-filter
-    
+    entity_id: fan.philips_air_purifier
