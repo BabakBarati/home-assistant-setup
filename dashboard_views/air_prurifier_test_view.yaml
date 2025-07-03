@@ -18,7 +18,7 @@ cards:
     icon: mdi:air-filter
     entity_id: fan.philips_air_purifier
   - type: custom:philips-tower-fan-control
-  name: My Philips Fan
+    name: My Philips Fan
     power_script_id: philips_fan_power_toggle
     rotation_script_id: philips_fan_rotation_toggle
     increase_speed_script_id: philips_fan_increase_fan_speed
