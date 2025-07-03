@@ -6,14 +6,14 @@ class PhilipsTowerFanControl extends HTMLElement {
         this.attachShadow({ mode: 'open' }); // Attach a shadow DOM to encapsulate styles and markup
         this._config = {}; // Initialize config
         this._hass = null; // Initialize Home Assistant object
+        this._isRendered = false; // Flag to ensure initial render happens only once
     }
 
     // Home Assistant will set this.hass property automatically
     set hass(hass) {
         this._hass = hass;
-        // Re-render the card when the hass object is updated.
-        // This ensures that any interactions relying on hass are correctly bound.
-        this.render();
+        // No need to call render here anymore, as the DOM is created once.
+        // The event listeners will simply use the updated this._hass when a click occurs.
     }
 
     // Set the configuration for the card
@@ -40,23 +40,27 @@ class PhilipsTowerFanControl extends HTMLElement {
         });
 
         this._config = config;
-        // Call render here as well to update content based on config changes
-        // The hass setter will also call render if hass is updated later.
-        this.render();
+        // If already rendered, we don't need to re-render the entire DOM.
+        // The event listeners will use the updated this._config when a click occurs.
+        if (this._isRendered) {
+            // If there were any dynamic parts of the UI that depend on config,
+            // you would update them here. For this static layout, no action needed.
+        }
     }
 
     // Called when the element is inserted into the DOM
     connectedCallback() {
-        this.render();
+        if (!this._isRendered) {
+            this.render();
+            this._isRendered = true;
+        }
     }
 
-    // Render the card's content
+    // Render the card's content (now called only once on connectedCallback)
     render() {
-        // Clear existing shadow DOM content before rendering
         this.shadowRoot.innerHTML = `
             <style>
                 /* Host styles for the custom card itself */
-
                 :host {
                     display: flex;
                     justify-content: center;
@@ -77,7 +81,6 @@ class PhilipsTowerFanControl extends HTMLElement {
                     width: 177px;
                     height: 240px;
                     border-radius: 8px; /* Rounded corners */
-                    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -194,7 +197,15 @@ class PhilipsTowerFanControl extends HTMLElement {
         const buttons = this.shadowRoot.querySelectorAll('.action-button');
 
         buttons.forEach(button => {
-            button.addEventListener('click', (e) => { // Use arrow function to preserve 'this' context
+            // Remove any previously attached listeners to prevent duplicates
+            // This is important if addInteractions somehow gets called multiple times
+            // without the _isRendered flag preventing full DOM rebuild.
+            // However, with the _isRendered flag, this is less critical.
+            // For robustness, if you were to add/remove buttons dynamically,
+            // you'd need a more sophisticated listener management.
+            // For this static setup, it's fine.
+
+            button.addEventListener('click', (e) => {
                 // Ripple effect logic
                 const existingRipple = button.querySelector('.ripple');
                 if (existingRipple) {
