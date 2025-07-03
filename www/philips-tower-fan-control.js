@@ -30,7 +30,7 @@ class PhilipsTowerFanControl extends HTMLElement {
         // Check for all expected script IDs and warn if missing
         const requiredScripts = [
             'power_script_id', 'rotation_script_id', 'mode_script_id',
-            'fan_increase_script_id', 'fan_decrease_script_id',
+            'increase_speed_script_id', 'decrease_speed_script_id',
             'timer_script_id', 'lock_script_id'
         ];
         requiredScripts.forEach(scriptKey => {
@@ -56,14 +56,20 @@ class PhilipsTowerFanControl extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 /* Host styles for the custom card itself */
+
                 :host {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin: 0;
-                    background-color: transparent; /* Card background */
-                    font-family: "Inter", sans-serif; /* Using Inter font */
                     padding: 16px; /* Padding around the card content */
+                    margin: 0;
+                    font-family: "Inter", sans-serif; /* Using Inter font */
+                    height: 100%; /* Take full height of its parent container in Lovelace */
+                    width: 100%; /* Take full width of its parent container in Lovelace */
+                    background-color: var(--card-background-color, #f0f0f0); /* Use HA theme background or fallback */
+                    border-radius: var(--ha-card-border-radius, 12px); /* Use HA theme border radius */
+                    box-shadow: var(--ha-card-box-shadow, 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)); /* Use HA theme shadow */
+                    overflow: hidden; /* Prevent scrollbars if circles go slightly out of bounds */
                 }
 
                 /* Styles for the grey rectangle with background image */
