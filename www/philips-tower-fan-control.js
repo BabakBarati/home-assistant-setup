@@ -173,8 +173,8 @@ class PhilipsTowerFanControl extends HTMLElement {
 
                 <div class="action-button small dial-button top clickable" data-button-id="mode-toggle"></div>
                 <div class="action-button small dial-button right clickable" data-button-id="fan-increase"></div>
-                <div class="action-button small dial-button bottom clickable" data-button-id="fan-decrease"></div>
-                <div class="action-button small dial-button left clickable" data-button-id="timer"></div>
+                <div class="action-button small dial-button bottom clickable" data-button-id="timer"></div>
+                <div class="action-button small dial-button left clickable" data-button-id="fan-decrease"></div>
 
                 <div class="action-button large dial-button middle clickable" data-button-id="lock-toggle"></div>
             </div>
@@ -227,10 +227,10 @@ class PhilipsTowerFanControl extends HTMLElement {
                             scriptId = this._config.mode_script_id;
                             break;
                         case 'fan-increase':
-                            scriptId = this._config.fan_increase_script_id;
+                            scriptId = this._config.increase_speed_script_id;
                             break;
                         case 'fan-decrease':
-                            scriptId = this._config.fan_decrease_script_id;
+                            scriptId = this._config.decrease_speed_script_id;
                             break;
                         case 'timer':
                             scriptId = this._config.timer_script_id;
