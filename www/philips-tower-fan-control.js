@@ -5,30 +5,44 @@ class PhilipsTowerFanControl extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' }); // Attach a shadow DOM to encapsulate styles and markup
         this._config = {}; // Initialize config
+        this._hass = null; // Initialize Home Assistant object
     }
 
     // Home Assistant will set this.hass property automatically
     set hass(hass) {
         this._hass = hass;
+        // Re-render the card when the hass object is updated.
+        // This ensures that any interactions relying on hass are correctly bound.
+        this.render();
     }
 
     // Set the configuration for the card
     setConfig(config) {
         if (!config.name) {
             console.error("Configuration missing 'name' for Philips Tower Fan Control card.");
-            // You might want to display an error message on the card itself
             this.shadowRoot.innerHTML = `<style>
                 :host { display: block; padding: 16px; background-color: #ffe0b2; border: 1px solid #ff9800; border-radius: 8px; }
                 p { color: #d32f2f; font-family: "Inter", sans-serif; }
             </style><p>Error: Card configuration missing 'name'.</p>`;
+            return;
         }
-        this._config = config;
 
-        if (this._hass) {
-            this.hass = this._hass; // Re-run hass setter to update content
-        }
-        return;
-        this.render(); // Call render to update the content based on config
+        // Check for all expected script IDs and warn if missing
+        const requiredScripts = [
+            'power_script_id', 'rotation_script_id', 'mode_script_id',
+            'fan_increase_script_id', 'fan_decrease_script_id',
+            'timer_script_id', 'lock_script_id'
+        ];
+        requiredScripts.forEach(scriptKey => {
+            if (!config[scriptKey]) {
+                console.warn(`Configuration missing '${scriptKey}'. Corresponding button will not function.`);
+            }
+        });
+
+        this._config = config;
+        // Call render here as well to update content based on config changes
+        // The hass setter will also call render if hass is updated later.
+        this.render();
     }
 
     // Called when the element is inserted into the DOM
@@ -46,7 +60,6 @@ class PhilipsTowerFanControl extends HTMLElement {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    /* min-height: 100vh; */ /* Not needed for a custom card */
                     margin: 0;
                     background-color: transparent; /* Card background */
                     font-family: "Inter", sans-serif; /* Using Inter font */
@@ -167,17 +180,17 @@ class PhilipsTowerFanControl extends HTMLElement {
             </div>
         `;
 
-        // Attach event listeners for the ripple effect in the shadow DOM
-        this.addRippleEffect();
+        // Attach event listeners for the ripple effect and service calls in the shadow DOM
+        this.addInteractions();
     }
 
-    addRippleEffect() {
+    addInteractions() {
         const buttons = this.shadowRoot.querySelectorAll('.action-button');
 
         buttons.forEach(button => {
-            button.addEventListener('click', function (e) {
-                // Remove any existing ripples to prevent multiple animations on rapid clicks
-                const existingRipple = this.querySelector('.ripple');
+            button.addEventListener('click', (e) => { // Use arrow function to preserve 'this' context
+                // Ripple effect logic
+                const existingRipple = button.querySelector('.ripple');
                 if (existingRipple) {
                     existingRipple.remove();
                 }
@@ -185,47 +198,55 @@ class PhilipsTowerFanControl extends HTMLElement {
                 const ripple = document.createElement('span');
                 ripple.classList.add('ripple');
 
-                // Get the click position relative to the button
-                const rect = this.getBoundingClientRect();
-                // Use the largest dimension for the ripple size to ensure it covers the button
+                const rect = button.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
 
-                // Position the ripple at the click coordinates relative to the button
                 ripple.style.width = ripple.style.height = `${size}px`;
                 ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
                 ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
 
-                this.appendChild(ripple);
+                button.appendChild(ripple);
 
-                // Remove the ripple element after the animation completes
                 ripple.addEventListener('animationend', () => {
                     ripple.remove();
                 });
 
                 // Home Assistant service call logic
                 if (this._hass) {
-                    // Check if the clicked button is the specific one for the MQTT action
-                    if (button.dataset.buttonId === 'power-toggle') {
-                        this._send_action(this._config.power_script_id);
-                    } else if (button.dataset.buttonId === 'rotation-toggle') {
-                        this._send_action(this._config.rotation_script_id);
-                    } else if (button.dataset.buttonId === 'mode-toggle') {
-                        this._send_action(this._config.mode_script_id);
+                    const buttonId = button.dataset.buttonId;
+                    let scriptId;
+
+                    switch (buttonId) {
+                        case 'power-toggle':
+                            scriptId = this._config.power_script_id;
+                            break;
+                        case 'rotation-toggle':
+                            scriptId = this._config.rotation_script_id;
+                            break;
+                        case 'mode-toggle':
+                            scriptId = this._config.mode_script_id;
+                            break;
+                        case 'fan-increase':
+                            scriptId = this._config.fan_increase_script_id;
+                            break;
+                        case 'fan-decrease':
+                            scriptId = this._config.fan_decrease_script_id;
+                            break;
+                        case 'timer':
+                            scriptId = this._config.timer_script_id;
+                            break;
+                        case 'lock-toggle':
+                            scriptId = this._config.lock_script_id;
+                            break;
+                        default:
+                            console.warn(`No action defined for button with ID: ${buttonId}`);
+                            return; // Exit if no action is defined
                     }
-                    else if (button.dataset.buttonId === 'fan-increase') {
-                        this._send_action(this._config.fan_increase_script_id);
-                    }
-                    else if (button.dataset.buttonId === 'fan-decrease') {
-                        this._send_action(this._config.fan_decrease_script_id);
-                    }
-                    else if (button.dataset.buttonId === 'timer') {
-                        this._send_action(this._config.timer_script_id);
-                    }
-                    else if (button.dataset.buttonId === 'lock-toggle') {
-                        this._send_action(this._config.lock_script_id);
-                    }
-                    else {
-                        console.warn(`No action defined for button with ID: ${button.dataset.buttonId}`);
+
+                    if (scriptId) {
+                        this._send_action(scriptId);
+                    } else {
+                        console.warn(`No script ID configured for button with ID: ${buttonId}`);
                     }
 
                 } else {
@@ -236,17 +257,15 @@ class PhilipsTowerFanControl extends HTMLElement {
     }
 
     _send_action(scriptId) {
-        // This method can be used to send actions to Home Assistant or MQTT
         if (this._hass) {
             this._hass.callService('homeassistant', 'turn_on', {
                 entity_id: `script.${scriptId}`
             });
-            console.log(`Home Assistant script '${this._config.power_script_id}' called for top-left button.`);
+            console.log(`Home Assistant script '${scriptId}' called.`);
         } else {
-            console.warn('No power_script_id configured for the top-left button.');
+            console.warn(`Home Assistant object (hass) not available. Cannot call script '${scriptId}'.`);
         }
     }
-
 
     // Optional: Define card size for Home Assistant layout
     getCardSize() {
