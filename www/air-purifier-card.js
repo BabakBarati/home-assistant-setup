@@ -45,7 +45,7 @@ class AirPurifierCard extends HTMLElement {
                     align-items: center;
                 }
 
-                .main-image {
+                #main-image {
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
@@ -80,20 +80,37 @@ class AirPurifierCard extends HTMLElement {
                     padding: 0 1rem; /* Add horizontal padding */
                     box-sizing: border-box; /* Include padding in width calculation */
                 }
+
+                .card-container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: stretch;
+                    width: 100%;
+                }
+
+                .controllers {
+                    color: #333;
+                }
+                
             </style>
+            <div class="metrics"></div>
             <div id="entity-name-display" class="entity-name-display">
                 <ha-icon id="mode-icon" icon=""></ha-icon>
                 <span id="friendly-name-text"></span>
             </div>
-            <div class="image-container">
-                <img id="main-image" src="/local/philips_ap/philips-air-purifier-web.png" alt="Philips Air Purifier" class="main-image">
+            <div class="card-container">
+                <div class="controllers"></div>
+                <div class="image-container">
+                    <img id="main-image" src="/local/philips_ap/philips-air-purifier-web.png" alt="Philips Air Purifier">
 
-                <div class="squares-stack-container">
-                    <img id="hepa-filter" src="/local/philips_ap/philips-hepa-filter-web.svg" alt="HEPA Filter" class="square-item animated-square" style="z-index: 1;">
-                    <img id="carbon-filter" src="/local/philips_ap/philips-carbon-filter-web.svg" alt="Carbon Filter" class="square-item animated-square" style="z-index: 2;">
-                    <img id="pre-filter" src="/local/philips_ap/philips-pre-filter-web.svg" alt="Pre-Filter" class="square-item animated-square" style="z-index: 3;">
-                    <img id="cover-open" src="/local/philips_ap/philips-cover-web.svg" alt="Cover Open" class="square-item animated-square" style="z-index: 4;">
-                    <img id="cover-closed" src="/local/philips_ap/philips-cover-closed-web.svg" alt="Cover Closed" class="square-item animated-square" style="z-index: 5;">
+                    <div class="squares-stack-container">
+                        <img id="hepa-filter" src="/local/philips_ap/philips-hepa-filter-web.svg" alt="HEPA Filter" class="square-item animated-square" style="z-index: 1;">
+                        <img id="carbon-filter" src="/local/philips_ap/philips-carbon-filter-web.svg" alt="Carbon Filter" class="square-item animated-square" style="z-index: 2;">
+                        <img id="pre-filter" src="/local/philips_ap/philips-pre-filter-web.svg" alt="Pre-Filter" class="square-item animated-square" style="z-index: 3;">
+                        <img id="cover-open" src="/local/philips_ap/philips-cover-web.svg" alt="Cover Open" class="square-item animated-square" style="z-index: 4;">
+                        <img id="cover-closed" src="/local/philips_ap/philips-cover-closed-web.svg" alt="Cover Closed" class="square-item animated-square" style="z-index: 5;">
+                    </div>
                 </div>
             </div>
         `;
