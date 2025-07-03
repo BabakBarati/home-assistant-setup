@@ -35,8 +35,22 @@ class AirPurifierCard extends HTMLElement {
                     opacity: 0;
                 }
 
+                .card-container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: stretch;
+                    width: 100%;
+                }
+
+                .controllers {
+                    flex-grow: 1;
+                    color: #333;
+                }
+
                 /* Styling for the main image and its container */
                 .image-container {
+                    flex-grow: 2;
                     position: relative;
                     width: 200px;
                     height: 200px;
@@ -79,20 +93,7 @@ class AirPurifierCard extends HTMLElement {
                     width: 100%; /* Ensures text is centered within the card's width */
                     padding: 0 1rem; /* Add horizontal padding */
                     box-sizing: border-box; /* Include padding in width calculation */
-                }
-
-                .card-container {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: stretch;
-                    width: 100%;
-                }
-
-                .controllers {
-                    color: #333;
-                }
-                
+                }                
             </style>
             <div class="metrics"></div>
             <div id="entity-name-display" class="entity-name-display">
@@ -103,7 +104,6 @@ class AirPurifierCard extends HTMLElement {
                 <div class="controllers"></div>
                 <div class="image-container">
                     <img id="main-image" src="/local/philips_ap/philips-air-purifier-web.png" alt="Philips Air Purifier">
-
                     <div class="squares-stack-container">
                         <img id="hepa-filter" src="/local/philips_ap/philips-hepa-filter-web.svg" alt="HEPA Filter" class="square-item animated-square" style="z-index: 1;">
                         <img id="carbon-filter" src="/local/philips_ap/philips-carbon-filter-web.svg" alt="Carbon Filter" class="square-item animated-square" style="z-index: 2;">
