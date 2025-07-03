@@ -17,3 +17,12 @@ cards:
     name: Red Circle test
     icon: mdi:air-filter
     entity_id: fan.philips_air_purifier
+  - type: custom:philips-tower-fan-control
+  name: My Philips Fan
+    power_script_id: philips_fan_power_toggle
+    rotation_script_id: philips_fan_rotation_toggle
+    increase_speed_script_id: philips_fan_increase_fan_speed
+    decrease_speed_script_id: philips_fan_decrease_fan_speed
+    mode_script_id: philips_fan_mode_toggle
+    lock_script_id: philips_fan_lock_toggle
+    timer_script_id: philips_fan_timer_set

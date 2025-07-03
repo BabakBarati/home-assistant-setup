@@ -232,7 +232,7 @@ class RedCircleCard extends HTMLElement {
             name: preFilterSensor.attributes.friendly_name || 'Active Carbon Filter',
             type: preFilterSensor.attributes.type || 'unknown',
             value: preFilterSensor.state || 'N/A',
-            percentage: `${Math.round((parseFloat(preFilterSensor.state)/4800 || 0) * 100)}%`,
+            percentage: `${Math.round((parseFloat(preFilterSensor.state)/720 || 0) * 100)}%`,
             unit: preFilterSensor.attributes.unit_of_measurement || '',
             icon: preFilterSensor.attributes.icon || 'mdi:filter'
         });

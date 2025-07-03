@@ -1,0 +1,48 @@
+philips_fan_power_toggle:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "C08jKBF1AkAGdQLoAeAVA0Aj4BcD4DdD4Cw/AgZ1Ag=="}'
+
+philips_fan_rotation_toggle:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "Ce8iahEoApwGKALgFwFAI+AXA8ABQCfgCwFAF0ADQAFAB+AHA8ABQBfgCwFAF0ADQAELnAYoApwGKAKcBigC"}'
+
+philips_fan_increase_fan_speed:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "CQUjSREwAoEGMALgFwFAI+ATA0ABwB/gCwFAG8ABQAvgBwNAAcAT4AsBQBuAAQFjAkAL4AMDB+QwBSO9CDAC"}'
+
+philips_fan_decrease_fan_speed:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "CfsiXRExAoEGMQLgFwFAI+ATA+ADAUAn4AcBQBPAA0ABwAvAB+ADAUAT4AcBQBPAA0ABwAsLgQYxArQw+yK2CDEC"}'
+
+philips_fan_mode_toggle:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "Ce8icREoApoGKALgFwFAI+AfA+AXAeAXR+AXAeAEPwIGKAI="}'
+
+philips_fan_lock_toggle:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "CfAiXxEwAoUGMALgFwFAI+ATA0ABwB9AAUAL4AMB4AMPwAtAB8ADQAHgBwvgAwFAG8ABwAsHhQYwAoUGMAI="}'
+
+philips_fan_timer_set:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/universal_ir_remote/set
+        payload: '{"ir_code_to_send": "Ce8iXhEwAoYGMALgFwFAI+AXA0ABQCPgDwHAG0AH4AsDQAFAF+APAcAbQAcLhgYwAoYGMAKGBjAC"}'

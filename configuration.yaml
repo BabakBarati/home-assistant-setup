@@ -12,6 +12,8 @@ lovelace:
       type: module
     - url: /local/red-circle-card.js?v=1.0.18
       type: module
+    - url: /local/philips-tower-fan-control.js?v=1.0.1
+      type: module
 
 script: !include_dir_merge_named scripts/
 
