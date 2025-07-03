@@ -7,6 +7,11 @@ class PhilipsTowerFanControl extends HTMLElement {
         this._config = {}; // Initialize config
     }
 
+    // Home Assistant will set this.hass property automatically
+    set hass(hass) {
+        this._hass = hass;
+    }
+
     // Set the configuration for the card
     setConfig(config) {
         if (!config.name) {
@@ -16,9 +21,13 @@ class PhilipsTowerFanControl extends HTMLElement {
                 :host { display: block; padding: 16px; background-color: #ffe0b2; border: 1px solid #ff9800; border-radius: 8px; }
                 p { color: #d32f2f; font-family: "Inter", sans-serif; }
             </style><p>Error: Card configuration missing 'name'.</p>`;
-            return;
         }
         this._config = config;
+
+        if (this._hass) {
+            this.hass = this._hass; // Re-run hass setter to update content
+        }
+        return;
         this.render(); // Call render to update the content based on config
     }
 
