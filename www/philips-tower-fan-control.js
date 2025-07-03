@@ -7,6 +7,11 @@ class PhilipsTowerFanControl extends HTMLElement {
         this._config = {}; // Initialize config
     }
 
+    // Home Assistant will set this.hass property automatically
+    set hass(hass) {
+        this._hass = hass;
+    }
+
     // Set the configuration for the card
     setConfig(config) {
         if (!config.name) {
