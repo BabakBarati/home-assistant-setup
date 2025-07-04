@@ -329,19 +329,18 @@ class AirPurifierCard extends HTMLElement {
         }
     }
 
-    _handleMode(normalizedDeviceName) {
+    _handleMode(fanEntity) {
         // TODO: remove testing data from here
 
         // return;
         // end of testing data
-        const fanEntityId = `fan.${normalizedDeviceName}`;
-        const state = this._hass.states[fanEntityId];
-        if (state && state.attributes && state.attributes.preset_mode) {
-            const mode = state.attributes.preset_mode;
+        console.log('ModeControl: _handleMode called with fanEntity:', fanEntity); // Debug log
+        if (fanEntity && fanEntity.attributes && fanEntity.attributes.preset_mode) {
+            const mode = fanEntity.attributes.preset_mode;
             // You can add logic here to handle different modes if needed
-            console.log(`Current mode for ${fanEntityId}: ${mode}`);
+            console.log(`Current mode for ${fanEntity}: ${mode}`);
         } else {
-            console.warn(`Mode attribute not found for entity: ${fanEntityId}`); // Fallback if mode not found
+            console.warn(`Mode attribute not found for entity: ${fanEntity}`); // Fallback if mode not found
         }
     }
 
@@ -443,7 +442,7 @@ class AirPurifierCard extends HTMLElement {
 
         // return; // Temporarily disable sensor handling
         // end of testing data
-        
+
         this._sensors = new Map();
 
         const indoorAllergenIndexSensor = this._hass.states[`sensor.${deviceName}_indoor_allergen_index`];
