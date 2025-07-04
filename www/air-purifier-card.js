@@ -1,7 +1,7 @@
 // Define the custom element class
 class AirPurifierCard extends HTMLElement {
     _modeToIconMap = new Map([
-        ["pollution", "pollution_mode"],
+        ["pollution", "purification_only_mode"],
         ["allergen", "allergen_mode"],
         ["bacteria", "bacteria_virus_mode"],
         ["sleep", "sleep_mode"],
@@ -191,7 +191,6 @@ class AirPurifierCard extends HTMLElement {
             </style>
             <div class="metrics"></div>
             <div id="entity-name-display" class="entity-name-display">
-                <ha-icon id="mode-icon" icon=""></ha-icon>
                 <span id="friendly-name-text"></span>
             </div>
             <div class="card-container">
@@ -225,7 +224,6 @@ class AirPurifierCard extends HTMLElement {
         this._carbonFilter = this.shadowRoot.getElementById('carbon-filter');
         this._hepaFilter = this.shadowRoot.getElementById('hepa-filter');
         this._deviceNameDisplay = this.shadowRoot.getElementById('friendly-name-text'); // New element reference
-        this._modeIcon = this.shadowRoot.getElementById('mode-icon'); // Reference to the icon element
 
         // Define animation distances
         this._squaresToAnimate = [
@@ -316,9 +314,6 @@ class AirPurifierCard extends HTMLElement {
         if (fanEntity && fanEntity.attributes) {
             if (fanEntity.attributes.name) {
                 this._deviceNameDisplay.textContent = fanEntity.attributes.name;
-            }
-            if (fanEntity.attributes.icon) {
-                this._modeIcon.setAttribute("icon", fanEntity.attributes.icon);
             }
             if (fanEntity.attributes.preset_modes) {
                 this._allModes = fanEntity.attributes.preset_modes;
