@@ -288,12 +288,13 @@ class AirPurifierCard extends HTMLElement {
 
     // Home Assistant Lovelace calls this method to pass the hass object (state)
     set hass(hass) {
-        console.log('ModeControl: set hass called with:', hass); // Debug log
+
         this._hass = hass; // Store the hass object
         if (this._config && this._config.entity_id) {
             const normalizedDeviceName = this._config.entity_id ? this._config.entity_id.split('fan.')[1] : '';
-            this._handleEntityName(normalizedDeviceName);
-            this._handleMode(this._hass.states[this._config.entity_id]);
+            const fanEntity = this._hass.states[this._config.entity_id];
+            this._handleEntityName(fanEntity);
+            this._handleMode(fanEntity);
             this._handleSensors(normalizedDeviceName);
         } else {
             this._deviceNameDisplay.textContent = 'No entity configured'; // Fallback if no entity in config
