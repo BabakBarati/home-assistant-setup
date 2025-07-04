@@ -140,6 +140,10 @@ class AirPurifierCard extends HTMLElement {
                     flex-direction: column;
                     align-items: center;
                 }
+                .metric-value {
+                    font-size: larger;
+                    font-weight: 600;
+                }
             </style>
 
             <!-- controller styles -->
@@ -550,7 +554,7 @@ class AirPurifierCard extends HTMLElement {
         }
 
         if (vocValue && this._sensors.has('voc')) {
-            vocValue.textContent = this._sensors.get('voc').value;
+            vocValue.textContent = `L${this._sensors.get('voc').value}`;
         } else {
             console.warn('ModeControl: VOC sensor not found or value not set.');
         }
