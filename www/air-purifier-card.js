@@ -17,13 +17,15 @@ class AirPurifierCard extends HTMLElement {
         this._allModes = ["pollution", "allergen", "bacteria", "sleep", "speed_1", "speed_2", "speed_3", "turbo"];
         this._newCircleDiameter = 30; // Diameter of the smaller circles in pixels (unchanged)
 
-        // Updated mainCircleRadius for 50px diameter
-        this._mainCircleRadius = 25; // Radius of the main circle (50px diameter / 2)
+        // Updated mainCircleRadius for 50px diameter (this is the *shrunk* state radius)
+        this._mainCircleShrunkRadius = 25; // Radius of the main circle when shrunk (50px diameter / 2)
+        this._mainCircleInitialRadius = 60; // Radius of the main circle initially (120px diameter / 2)
 
         // Calculate distribution radius:
         // Distance from the center of the main circle to the center of new circles.
         // This includes main circle's radius + new circle's radius + a small gap.
-        this._distributionRadius = this._mainCircleRadius + (this._newCircleDiameter / 2) + 5; // 25 + 15 + 5 = 45px
+        // Use the shrunk radius for distribution calculation as circles appear when main circle shrinks
+        this._distributionRadius = this._mainCircleShrunkRadius + (this._newCircleDiameter / 2) + 5; // 25 + 15 + 5 = 45px
 
         // The center of the circleContainer (and thus the mainCircle) in pixels
         // This should be half of the container's fixed width/height.
@@ -133,15 +135,15 @@ class AirPurifierCard extends HTMLElement {
                     cursor: pointer;
                     /* Apply transform for centering all circles */
                     transform: translate(-50%, -50%);
-                    /* Add transitions for smooth animation of position only (no opacity transition) */
-                    transition: left 0.6s ease-out, top 0.6s ease-out, background-color 0.3s ease;
+                    /* Add transitions for smooth animation of position, size, and background-color */
+                    transition: left 0.6s ease-out, top 0.6s ease-out, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
                 }
 
                 /* Styling for the main red circle */
                 #mainCircle {
                     background-color: #ffffff; /* Changed to white */
-                    width: 50px; /* Changed to 50px diameter */
-                    height: 50px; /* Changed to 50px diameter */
+                    width: 120px; /* Initial diameter */
+                    height: 120px; /* Initial diameter */
                     border: 2px solid #000000; /* Added black 2px border */
                     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Shadow */
                     display: flex;
@@ -423,10 +425,6 @@ class AirPurifierCard extends HTMLElement {
             console.log('ModeControl: .new-circle clicked! Mode:', mode);
             
             this._changeMode(mode);
-            // You can add further logic here to handle the mode change,
-            // e.g., calling a Home Assistant service to set the preset_mode.
-            // Example (assuming you have a service call method):
-            // this._callService('fan', 'set_preset_mode', { entity_id: this._config.entity_id, preset_mode: mode });
         }
 
         if (!isClickOnMainCircle && this.shadowRoot.querySelectorAll('.new-circle').length > 0) {
@@ -545,6 +543,10 @@ class AirPurifierCard extends HTMLElement {
                 circle.style.top = `${this._containerCenterY}px`;
             });
 
+            // Shrink main circle back to original size
+            this.mainCircle.style.width = `${this._mainCircleInitialRadius * 2}px`;
+            this.mainCircle.style.height = `${this._mainCircleInitialRadius * 2}px`;
+
             setTimeout(() => {
                 console.log('ModeControl: _reverseAndRemoveCircles - transition complete, setting opacity to 0.'); // Debug log
                 existingNewCircles.forEach(circle => {
@@ -583,6 +585,10 @@ class AirPurifierCard extends HTMLElement {
             this._reverseAndRemoveCircles();
         } else {
             this._clearNewCircles(); // Ensure no lingering circles from previous states
+
+            // Shrink main circle
+            this.mainCircle.style.width = `${this._mainCircleShrunkRadius * 2}px`;
+            this.mainCircle.style.height = `${this._mainCircleShrunkRadius * 2}px`;
 
             this._allModes
                 .filter(mode => mode !== this._selectedMode)
