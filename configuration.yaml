@@ -8,7 +8,7 @@ lovelace:
       type: module
     - url: /local/layout-card.js
       type: module
-    - url: /local/air-purifier-card.js?v=1.0.18
+    - url: /local/air-purifier-card.js?v=1.0.19
       type: module
     - url: /local/red-circle-card.js?v=1.0.18
       type: module
