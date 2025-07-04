@@ -21,6 +21,10 @@ class AirPurifierCard extends HTMLElement {
         this._mainCircleShrunkRadius = 25; // Radius of the main circle when shrunk (50px diameter / 2)
         this._mainCircleInitialRadius = 60; // Radius of the main circle initially (120px diameter / 2)
 
+        // Define icon font sizes for different states
+        this._mainIconShrunkFontSize = '1.5rem';
+        this._mainIconInitialFontSize = '3rem'; // Increased font size for icon when main circle is large
+
         // Calculate distribution radius:
         // Distance from the center of the main circle to the center of new circles.
         // This includes main circle's radius + new circle's radius + a small gap.
@@ -151,11 +155,16 @@ class AirPurifierCard extends HTMLElement {
                     justify-content: center;
                     color: #000000; /* Changed icon color to black */
                     font-weight: bold;
-                    font-size: 1.5rem; /* Increased font size for icon */
+                    font-size: ${this._mainIconInitialFontSize}; /* Initial font size for icon */
                     /* Center the main circle using top/left 50% and transform */
                     top: 50%;
                     left: 50%;
                     z-index: 1;
+                }
+
+                /* Add transition for font-size to ha-icon inside mainCircle */
+                #mainCircle ha-icon {
+                    transition: font-size 0.3s ease;
                 }
 
                 /* Styling for the new smaller circles */
@@ -543,9 +552,14 @@ class AirPurifierCard extends HTMLElement {
                 circle.style.top = `${this._containerCenterY}px`;
             });
 
-            // Shrink main circle back to original size
+            // Expand main circle back to original size
             this.mainCircle.style.width = `${this._mainCircleInitialRadius * 2}px`;
             this.mainCircle.style.height = `${this._mainCircleInitialRadius * 2}px`;
+            // Expand icon size
+            const mainCircleIcon = this.mainCircle.querySelector('ha-icon');
+            if (mainCircleIcon) {
+                mainCircleIcon.style.fontSize = this._mainIconInitialFontSize;
+            }
 
             setTimeout(() => {
                 console.log('ModeControl: _reverseAndRemoveCircles - transition complete, setting opacity to 0.'); // Debug log
@@ -589,6 +603,11 @@ class AirPurifierCard extends HTMLElement {
             // Shrink main circle
             this.mainCircle.style.width = `${this._mainCircleShrunkRadius * 2}px`;
             this.mainCircle.style.height = `${this._mainCircleShrunkRadius * 2}px`;
+            // Shrink icon size
+            const mainCircleIcon = this.mainCircle.querySelector('ha-icon');
+            if (mainCircleIcon) {
+                mainCircleIcon.style.fontSize = this._mainIconShrunkFontSize;
+            }
 
             this._allModes
                 .filter(mode => mode !== this._selectedMode)
