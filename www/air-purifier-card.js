@@ -136,6 +136,9 @@ class AirPurifierCard extends HTMLElement {
                 }
                 .metric-item {
                     flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
             </style>
 
@@ -201,15 +204,15 @@ class AirPurifierCard extends HTMLElement {
             <div class="metrics">
                 <div class="metric-item">
                     <div>PM2.5</div>
-                    <div>40 µg/m³</div>
+                    <div><span class="metric-value" id="pm2_5-value"></span> µg/m³</div>
                 </div>
                 <div class="metric-item">
                     <div>AIA</div>
-                    <div>2/12</div>
+                    <div><span class="metric-value" id="aia-value"></span><span>/12</span></div>
                 </div>
                 <div class="metric-item">
                     <div>Gas</div>
-                    <div>L1</div>
+                    <div><span class="metric-value" id="voc-value"></span></div>
                 </div>
             </div>
             <div id="entity-name-display" class="entity-name-display">
@@ -524,7 +527,33 @@ class AirPurifierCard extends HTMLElement {
             icon: hepaFilterSensor.attributes.icon || 'mdi:filter'
         });
 
+        this._updateMetricsDisplay();
+
         console.log('ModeControl: Sensors handled:', this._sensors); // Debug log
+    }
+
+    _updateMetricsDisplay() {
+        const pm2_5Value = this.shadowRoot.getElementById('pm2_5-value');
+        const aiaValue = this.shadowRoot.getElementById('aia-value');
+        const vocValue = this.shadowRoot.getElementById('voc-value');
+
+        if (pm2_5Value && this._sensors.has('pm2_5')) {
+            pm2_5Value.textContent = this._sensors.get('pm2_5').value;
+        } else {
+            console.warn('ModeControl: PM2.5 sensor not found or value not set.');
+        }
+
+        if (aiaValue && this._sensors.has('iai')) {
+            aiaValue.textContent = this._sensors.get('iai').value;
+        } else {
+            console.warn('ModeControl: Indoor Allergen Index sensor not found or value not set.');
+        }
+
+        if (vocValue && this._sensors.has('voc')) {
+            vocValue.textContent = this._sensors.get('voc').value;
+        } else {
+            console.warn('ModeControl: VOC sensor not found or value not set.');
+        }
     }
 
     _getModeIcon(mode) {
