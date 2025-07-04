@@ -50,8 +50,9 @@ class AirPurifierCard extends HTMLElement {
                     background-color: #f0f2f5; /* Light grey background for the card area */
                     border-radius: 0.5rem; /* Equivalent to Tailwind's rounded-lg */
                     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Equivalent to Tailwind's shadow-lg */
-                    padding: 1rem; /* Add some padding around the content */
+                    /* padding: 1rem; Add some padding around the content */
                     font-family: "Inter", sans-serif; /* Ensure consistent font */
+                    overflow: hidden;
                 }
 
                 /* Custom CSS for smooth transitions on the small squares */
@@ -127,7 +128,15 @@ class AirPurifierCard extends HTMLElement {
                     width: 100%; /* Ensures text is centered within the card's width */
                     padding: 0 1rem; /* Add horizontal padding */
                     box-sizing: border-box; /* Include padding in width calculation */
-                }                
+                }
+                .metrics {
+                    background: white;
+                    display: flex;
+                    width: 100%;
+                }
+                .metric-item {
+                    flex: 1;
+                }
             </style>
 
             <!-- controller styles -->
