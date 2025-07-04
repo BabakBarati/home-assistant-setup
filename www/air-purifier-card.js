@@ -33,8 +33,8 @@ class AirPurifierCard extends HTMLElement {
 
         // The center of the circleContainer (and thus the mainCircle) in pixels
         // This should be half of the container's fixed width/height.
-        this._containerCenterX = 85; // 300px / 2
-        this._containerCenterY = 150; // 300px / 2
+        this._containerCenterX = 85;
+        this._containerCenterY = 150;
 
         // Create the HTML structure for the card using a template literal
         // All styling is now embedded directly or converted from Tailwind classes to standard CSS
@@ -189,9 +189,22 @@ class AirPurifierCard extends HTMLElement {
                     height: 300px; /* Fixed height for the container */
                 }
             </style>
-            <div class="metrics"></div>
+            <div class="metrics">
+                <div class="metric-item">
+                    <div>PM2.5</div>
+                    <div>40 µg/m³</div>
+                </div>
+                <div class="metric-item">
+                    <div>AIA</div>
+                    <div>2/12</div>
+                </div>
+                <div class="metric-item">
+                    <div>Gas</div>
+                    <div>L1</div>
+                </div>
+            </div>
             <div id="entity-name-display" class="entity-name-display">
-                <span id="friendly-name-text"></span>
+                <span id="device-name"></span>
             </div>
             <div class="card-container">
                 <div class="controllers">
@@ -223,7 +236,7 @@ class AirPurifierCard extends HTMLElement {
         this._preFilter = this.shadowRoot.getElementById('pre-filter');
         this._carbonFilter = this.shadowRoot.getElementById('carbon-filter');
         this._hepaFilter = this.shadowRoot.getElementById('hepa-filter');
-        this._deviceNameDisplay = this.shadowRoot.getElementById('friendly-name-text'); // New element reference
+        this._deviceNameDisplay = this.shadowRoot.getElementById('device-name'); // New element reference
 
         // Define animation distances
         this._squaresToAnimate = [
