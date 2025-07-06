@@ -4,7 +4,7 @@ sensor:
   - unique_id: current_electricity_price_vattenfall
     name: "Current Electricity Price Vattenfall"
     unit_of_measurement: "EUR/kWh"
-    state_class: None
+    state_class: "measurement"
     device_class: "monetary"
     state: >
       {% set now = now() %}
