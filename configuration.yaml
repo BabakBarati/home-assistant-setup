@@ -17,13 +17,12 @@ lovelace:
     - url: /local/philips-tower-fan-control.js?v=1.0.7
       type: module
   dashboards:
-    electricity_insights:
+    electricity-insights:
       mode: yaml
       filename: dashboard_views/electricity_insights_dashboard.yaml
       title: Electricity Insights
       icon: mdi:flash
       show_in_sidebar: true
-      url_path: energy-dashboard
 
 frontend:
   themes: !include_dir_merge_named themes
