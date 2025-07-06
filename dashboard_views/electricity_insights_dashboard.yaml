@@ -1,5 +1,3 @@
-# /config/electricity_insights_dashboard.yaml - Paste this content here!
-
 title: Electricity Insights # This title can be omitted as it's defined in configuration.yaml, but no harm in keeping it.
 views:
   - title: Daily
