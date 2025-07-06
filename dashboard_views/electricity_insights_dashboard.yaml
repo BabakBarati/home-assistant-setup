@@ -6,13 +6,13 @@ views:
     cards:
       - type: sensor
         entity: sensor.electricity_consumption_daily_tarif1_kwh_total
-        name: "Daily Consumption Tariff"
+        name: "Daily Consumption"
         graph: line
         detail: 1
         unit_of_measurement: kWh
       - type: sensor
         entity: sensor.electricity_cost_daily_tarif1_eur_total
-        name: "Daily Cost Tariff"
+        name: "Daily Cost"
         graph: line
         detail: 1
         unit_of_measurement: €
@@ -54,7 +54,7 @@ views:
         unit_of_measurement: kWh
       - type: sensor
         entity: sensor.electricity_cost_weekly_tarif1_eur_total
-        name: "Weekly Cost Tariff"
+        name: "Weekly Cost"
         graph: line
         detail: 1
         unit_of_measurement: €
