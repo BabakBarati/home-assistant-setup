@@ -1,0 +1,42 @@
+- unique_id: current_electricity_price_vattenfall
+  sensor:
+    - name: "Current Electricity Price Vattenfall"
+      unit_of_measurement: "EUR/kWh"
+      state_class: "measurement"
+      device_class: "monetary"
+      state: >
+        {% set now = now() %}
+        {% set month = now.month %}
+        {% set hour = now.hour %}
+        {% set weekday = now.weekday() %} {# Monday is 0, Sunday is 6 #}
+        {% set is_public_holiday = is_state('binary_sensor.is_public_holiday_nl', 'on') %}
+
+        {# Summer (April 1 - Sept 30) #}
+        {% if month >= 4 and month <= 9 %}
+          {# Zomer normaal (00:00-12:00 uur en 16:00-24:00) - Tariff 1 #}
+          {% if (hour >= 0 and hour < 12) or (hour >= 16 and hour < 24) %}
+            0.280405
+          {# Zomer dal week (12:00-16:00) - Tariff 2 (Mon-Fri, not a public holiday) #}
+          {% elif hour >= 12 and hour < 16 and weekday >= 0 and weekday <= 4 and not is_public_holiday %}
+            0.162430
+          {# Zomer dal weekend (12:00-16:00) - Tariff 3 (Sat, Sun, or public holiday) #}
+          {% elif hour >= 12 and hour < 16 and (weekday == 5 or weekday == 6 or is_public_holiday) %}
+            0.122863
+          {% else %}
+            0.0 # Default or error state, adjust as needed
+          {% endif %}
+        {# Winter (Oct 1 - March 31) #}
+        {% else %}
+          {# Winter normaal (06:00-12:00 en 16:00-01:00) - Tariff 4 #}
+          {% if (hour >= 6 and hour < 12) or (hour >= 16 and hour < 25) %} {# 25 for 01:00 of next day #}
+            0.306662
+          {# Winter dal dag (12:00-16:00) - Tariff 5 #}
+          {% elif hour >= 12 and hour < 16 %}
+            0.249671
+          {# Winter dal nacht (01:00-06:00) - Tariff 6 #}
+          {% elif hour >= 1 and hour < 6 %}
+            0.233457
+          {% else %}
+            0.0 # Default or error state, adjust as needed
+          {% endif %}
+        {% endif %}

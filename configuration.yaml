@@ -15,7 +15,12 @@ lovelace:
     - url: /local/philips-tower-fan-control.js?v=1.0.7
       type: module
 
-script: !include_dir_merge_named scripts/
+frontend:
+  themes: !include_dir_merge_named themes
+template: !include_dir_merge_named templates/
+script: !include_dir_merge_named scripts/folder
+automation: !include_dir_merge_named automations/
+scene: !include_dir_merge_named scenes/
 
 http:
   use_x_forwarded_for: true
