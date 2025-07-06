@@ -17,10 +17,17 @@ lovelace:
 
 frontend:
   themes: !include_dir_merge_named themes
-template: !include_dir_merge_named templates/
-script: !include_dir_merge_named scripts/folder
+#template: !include_dir_merge_named templates/
+script: !include_dir_merge_named scripts/
 automation: !include_dir_merge_named automations/
 scene: !include_dir_merge_named scenes/
+
+template: # <--- ADD THIS NEW TEMPLATE BLOCK
+  - sensor:
+      - unique_id: test_simple_template_sensor # <--- NEW TEST SENSOR ID
+        name: "Test Simple Template Sensor"
+        unit_of_measurement: "TEST"
+        state: "123" # A fixed, simple value
 
 http:
   use_x_forwarded_for: true
