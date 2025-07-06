@@ -1,4 +1,4 @@
-# Daily kWh Consumption Meters
+# Daily kWh Consumption Meter
 electricity_consumption_daily_tarif1_kwh:
   source: sensor.electricity_meter_energy_consumption_tarif_1
   name: "Daily Electricity Consumption Tariff 1 (kWh)"
@@ -6,7 +6,7 @@ electricity_consumption_daily_tarif1_kwh:
   tariffs:
     - total
 
-# Weekly kWh Consumption Meters
+# Weekly kWh Consumption Meter
 electricity_consumption_weekly_tarif1_kwh:
   source: sensor.electricity_meter_energy_consumption_tarif_1
   name: "Weekly Electricity Consumption Tariff 1 (kWh)"
@@ -14,7 +14,7 @@ electricity_consumption_weekly_tarif1_kwh:
   tariffs:
     - total
 
-# Monthly kWh Consumption Meters
+# Monthly kWh Consumption Meter
 electricity_consumption_monthly_tarif1_kwh:
   source: sensor.electricity_meter_energy_consumption_tarif_1
   name: "Monthly Electricity Consumption Tariff 1 (kWh)"
@@ -22,7 +22,7 @@ electricity_consumption_monthly_tarif1_kwh:
   tariffs:
     - total
 
-# Daily EUR Cost Meters
+# Daily EUR Cost Meter
 electricity_cost_daily_tarif1_eur:
   source: sensor.electricity_meter_energy_consumption_tarif_1_cost
   name: "Daily Electricity Cost Tariff 1 (EUR)"
@@ -30,7 +30,7 @@ electricity_cost_daily_tarif1_eur:
   tariffs:
     - total
 
-# Weekly EUR Cost Meters
+# Weekly EUR Cost Meter
 electricity_cost_weekly_tarif1_eur:
   source: sensor.electricity_meter_energy_consumption_tarif_1_cost
   name: "Weekly Electricity Cost Tariff 1 (EUR)"
@@ -38,7 +38,7 @@ electricity_cost_weekly_tarif1_eur:
   tariffs:
     - total
 
-# Monthly EUR Cost Meters
+# Monthly EUR Cost Meter
 electricity_cost_monthly_tarif1_eur:
   source: sensor.electricity_meter_energy_consumption_tarif_1_cost
   name: "Monthly Electricity Cost Tariff 1 (EUR)"
