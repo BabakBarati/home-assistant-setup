@@ -243,6 +243,7 @@ class AirPurifierCard extends HTMLElement {
                     </div>
                 </div>
             </div>
+            <ha-icon icon="" id="signal-strength"></ha-icon>
         `;
 
         // Get references to the elements within the shadow DOM
@@ -505,6 +506,7 @@ class AirPurifierCard extends HTMLElement {
             name: _rssiSensor.attributes.friendly_name || 'RSSI',
             value: _rssiSensor.state || 'N/A',
             unit: _rssiSensor.attributes.unit_of_measurement || '',
+            icon: _rssiSensor.attributes.icon || 'mdi:circle'
         });
         this._sensors.set('pre_filter', {
             name: preFilterSensor.attributes.friendly_name || 'Active Carbon Filter',
@@ -532,6 +534,7 @@ class AirPurifierCard extends HTMLElement {
         });
 
         this._updateMetricsDisplay();
+        this._updateSignalStrengthIcon(this._sensors.get('rssi'));
 
         console.log('ModeControl: Sensors handled:', this._sensors); // Debug log
     }
@@ -557,6 +560,18 @@ class AirPurifierCard extends HTMLElement {
             vocValue.textContent = `L${this._sensors.get('voc').value}`;
         } else {
             console.warn('ModeControl: VOC sensor not found or value not set.');
+        }
+    }
+
+    _updateSignalStrengthIcon(rssiSensor) {
+        if (!rssiSensor || !this.shadowRoot) {
+            console.warn('ModeControl: RSSI sensor or shadowRoot not available for signal strength update.');
+            return;
+        }
+        const signalStrengthIcon = this.shadowRoot.getElementById('signal-strength');
+        if (signalStrengthIcon) {
+            signalStrengthIcon.setAttribute('icon', rssiSensor.icon || 'mdi:circle');
+            signalStrengthIcon.style.setProperty('--mdc-icon-size', '24px');
         }
     }
 
