@@ -53,6 +53,7 @@ class AirPurifierCard extends HTMLElement {
                     /* padding: 1rem; Add some padding around the content */
                     font-family: "Inter", sans-serif; /* Ensure consistent font */
                     overflow: hidden;
+                    position: relative;
                 }
 
                 /* Custom CSS for smooth transitions on the small squares */
@@ -143,6 +144,13 @@ class AirPurifierCard extends HTMLElement {
                 .metric-value {
                     font-size: larger;
                     font-weight: 600;
+                }
+
+                #.signal-strength {
+                    position: absolute;
+                    left: 10px;
+                    bottom: 10px;
+                    color: var(--primary-color);
                 }
             </style>
 
@@ -571,7 +579,6 @@ class AirPurifierCard extends HTMLElement {
         const signalStrengthIcon = this.shadowRoot.getElementById('signal-strength');
         if (signalStrengthIcon) {
             signalStrengthIcon.setAttribute('icon', rssiSensor.icon || 'mdi:circle');
-            signalStrengthIcon.style.setProperty('--mdc-icon-size', '24px');
         }
     }
 
