@@ -146,7 +146,7 @@ class AirPurifierCard extends HTMLElement {
                     font-weight: 600;
                 }
 
-                #.signal-strength {
+                #signal-strength {
                     position: absolute;
                     left: 10px;
                     bottom: 10px;
