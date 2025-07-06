@@ -16,7 +16,7 @@ views:
         graph: line
         detail: 1
         unit_of_measurement: €
-        state_display: "{{ states('sensor.electricity_cost_daily_tarif1_eur_total') | float(0) | round(2) }}"
+        value_template: "{{ states('sensor.electricity_cost_daily_tarif1_eur_total') | float(0) | round(2) }}"
 
       - type: entities
         title: All Daily Electricity Metrics
@@ -58,7 +58,7 @@ views:
         graph: line
         detail: 1
         unit_of_measurement: €
-        state_display: "{{ states('sensor.electricity_cost_weekly_tarif1_eur_total') | float(0) | round(2) }}"
+        value_template: "{{ states('sensor.electricity_cost_weekly_tarif1_eur_total') | float(0) | round(2) }}"
 
       - type: entities
         title: All Weekly Electricity Metrics
@@ -98,7 +98,7 @@ views:
         graph: line
         detail: 1
         unit_of_measurement: €
-        state_display: "{{ states('sensor.electricity_cost_monthly_tarif1_eur_total') | float(0) | round(2) }}"
+        value_template: "{{ states('sensor.electricity_cost_monthly_tarif1_eur_total') | float(0) | round(2) }}"
 
       - type: entities
         title: All Monthly Electricity Metrics
