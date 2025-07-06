@@ -1,0 +1,121 @@
+# /config/electricity_insights_dashboard.yaml - Paste this content here!
+
+title: Electricity Insights # This title can be omitted as it's defined in configuration.yaml, but no harm in keeping it.
+views:
+  - title: Daily
+    path: daily
+    icon: mdi:calendar-today
+    cards:
+      - type: sensor
+        entity: sensor.electricity_consumption_daily_tarif1_kwh_total
+        name: "Daily Consumption Tariff"
+        graph: line
+        detail: 1
+        unit_of_measurement: kWh
+      - type: sensor
+        entity: sensor.electricity_cost_daily_tarif1_eur_total
+        name: "Daily Cost Tariff"
+        graph: line
+        detail: 1
+        unit_of_measurement: EUR
+
+      - type: entities
+        title: All Daily Electricity Metrics
+        entities:
+          - sensor.electricity_consumption_daily_tarif1_kwh_total
+          - sensor.electricity_cost_daily_tarif1_eur_total
+
+      - type: statistics-graph
+        entities:
+          - sensor.electricity_consumption_daily_tarif1_kwh_total
+        chart_type: bar
+        period: day
+        stat_type: sum
+        title: Daily kWh Usage History
+
+      - type: statistics-graph
+        entities:
+          - sensor.electricity_cost_daily_tarif1_eur_total
+        chart_type: bar
+        period: day
+        stat_type: sum
+        title: Daily Cost History (EUR)
+
+
+  - title: Weekly
+    path: weekly
+    icon: mdi:calendar-week
+    cards:
+      - type: sensor
+        entity: sensor.electricity_consumption_weekly_tarif1_kwh_total
+        name: "Weekly Consumption"
+        graph: line
+        detail: 1
+        unit_of_measurement: kWh
+      - type: sensor
+        entity: sensor.electricity_cost_weekly_tarif1_eur_total
+        name: "Weekly Cost Tariff"
+        graph: line
+        detail: 1
+        unit_of_measurement: EUR
+
+      - type: entities
+        title: All Weekly Electricity Metrics
+        entities:
+          - sensor.electricity_consumption_weekly_tarif1_kwh_total
+          - sensor.electricity_cost_weekly_tarif1_eur_total
+
+      - type: statistics-graph
+        entities:
+          - sensor.electricity_consumption_weekly_tarif1_kwh_total
+        chart_type: bar
+        period: week
+        stat_type: sum
+        title: Weekly kWh Usage History
+
+      - type: statistics-graph
+        entities:
+          - sensor.electricity_cost_weekly_tarif1_eur_total
+        chart_type: bar
+        period: week
+        stat_type: sum
+        title: Weekly Cost History
+
+  - title: Monthly
+    path: monthly
+    icon: mdi:calendar-month
+    cards:
+      - type: sensor
+        entity: sensor.electricity_consumption_monthly_tarif1_kwh_total
+        name: "Monthly Consumption"
+        graph: line
+        detail: 1
+        unit_of_measurement: kWh
+      - type: sensor
+        entity: sensor.electricity_cost_monthly_tarif1_eur_total
+        name: "Monthly Cost"
+        graph: line
+        detail: 1
+        unit_of_measurement: EUR
+
+      - type: entities
+        title: All Monthly Electricity Metrics
+        entities:
+          - sensor.electricity_consumption_monthly_tarif1_kwh_total
+          - sensor.electricity_cost_monthly_tarif1_eur_total
+
+      - type: statistics-graph
+        entities:
+          - sensor.electricity_consumption_monthly_tarif1_kwh_total
+        chart_type: bar
+        period: month
+        stat_type: sum
+        title: Monthly kWh Usage History
+
+      - type: statistics-graph
+        entities:
+          - sensor.electricity_cost_monthly_tarif1_eur_total
+        chart_type: bar
+        period: month
+        stat_type: sum
+        title: Monthly Cost History
