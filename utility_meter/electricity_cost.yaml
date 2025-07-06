@@ -6,24 +6,10 @@ electricity_consumption_daily_tarif1_kwh:
   tariffs:
     - total
 
-electricity_consumption_daily_tarif2_kwh:
-  source: sensor.electricity_meter_energy_consumption_tarif_2
-  name: "Daily Electricity Consumption Tariff 2 (kWh)"
-  cycle: daily
-  tariffs:
-    - total
-
 # Weekly kWh Consumption Meters
 electricity_consumption_weekly_tarif1_kwh:
   source: sensor.electricity_meter_energy_consumption_tarif_1
   name: "Weekly Electricity Consumption Tariff 1 (kWh)"
-  cycle: weekly
-  tariffs:
-    - total
-
-electricity_consumption_weekly_tarif2_kwh:
-  source: sensor.electricity_meter_energy_consumption_tarif_2
-  name: "Weekly Electricity Consumption Tariff 2 (kWh)"
   cycle: weekly
   tariffs:
     - total
@@ -36,24 +22,10 @@ electricity_consumption_monthly_tarif1_kwh:
   tariffs:
     - total
 
-electricity_consumption_monthly_tarif2_kwh:
-  source: sensor.electricity_meter_energy_consumption_tarif_2
-  name: "Monthly Electricity Consumption Tariff 2 (kWh)"
-  cycle: monthly
-  tariffs:
-    - total
-
 # Daily EUR Cost Meters
 electricity_cost_daily_tarif1_eur:
   source: sensor.electricity_meter_energy_consumption_tarif_1_cost
   name: "Daily Electricity Cost Tariff 1 (EUR)"
-  cycle: daily
-  tariffs:
-    - total
-
-electricity_cost_daily_tarif2_eur:
-  source: sensor.electricity_meter_energy_consumption_tarif_2_cost
-  name: "Daily Electricity Cost Tariff 2 (EUR)"
   cycle: daily
   tariffs:
     - total
@@ -66,24 +38,10 @@ electricity_cost_weekly_tarif1_eur:
   tariffs:
     - total
 
-electricity_cost_weekly_tarif2_eur:
-  source: sensor.electricity_meter_energy_consumption_tarif_2_cost
-  name: "Weekly Electricity Cost Tariff 2 (EUR)"
-  cycle: weekly
-  tariffs:
-    - total
-
 # Monthly EUR Cost Meters
 electricity_cost_monthly_tarif1_eur:
   source: sensor.electricity_meter_energy_consumption_tarif_1_cost
   name: "Monthly Electricity Cost Tariff 1 (EUR)"
-  cycle: monthly
-  tariffs:
-    - total
-
-electricity_cost_monthly_tarif2_eur:
-  source: sensor.electricity_meter_energy_consumption_tarif_2_cost
-  name: "Monthly Electricity Cost Tariff 2 (EUR)"
   cycle: monthly
   tariffs:
     - total
