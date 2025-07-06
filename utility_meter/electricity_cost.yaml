@@ -29,6 +29,8 @@ electricity_cost_daily_tarif1_eur:
   cycle: daily
   tariffs:
     - total
+  device_class: monetary
+  state_class: total    
 
 # Weekly EUR Cost Meter
 electricity_cost_weekly_tarif1_eur:
@@ -37,6 +39,8 @@ electricity_cost_weekly_tarif1_eur:
   cycle: weekly
   tariffs:
     - total
+  device_class: monetary
+  state_class: total    
 
 # Monthly EUR Cost Meter
 electricity_cost_monthly_tarif1_eur:
@@ -45,3 +49,5 @@ electricity_cost_monthly_tarif1_eur:
   cycle: monthly
   tariffs:
     - total
+  device_class: monetary
+  state_class: total    
