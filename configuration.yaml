@@ -6,6 +6,10 @@ recorder:
 lovelace:
   mode: yaml
   resources:
+    # HACS
+    - url: /hacsfiles/lovelace-mushroom/mushroom.js
+      type: module
+    # my custom resources
     - url: /local/vacuum-card.js
       type: module
     - url: /local/layout-card.js
@@ -16,6 +20,7 @@ lovelace:
       type: module
     - url: /local/philips-tower-fan-control.js?v=1.0.7
       type: module
+
   dashboards:
     electricity-insights:
       mode: yaml
