@@ -1,0 +1,18 @@
+turn_on_remote_learn_ir_code:
+  sequence:
+  - type: turn_on
+    device_id: 869fbcba48a00700d5618997ba172991
+    entity_id: a863056fb3f16846eb018cb6b0f3248d
+    domain: switch
+  alias: Turn On Remote Learn IR Code
+  description: ''
+turn_on_remote_ir_learn:
+  sequence:
+  - type: turn_off
+    device_id: 869fbcba48a00700d5618997ba172991
+    entity_id: a863056fb3f16846eb018cb6b0f3248d
+    domain: switch
+    metadata:
+      secondary: false
+  alias: turn_on_remote_ir_learn
+  description: ''

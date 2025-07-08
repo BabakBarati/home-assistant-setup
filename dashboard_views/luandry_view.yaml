@@ -1,0 +1,70 @@
+title: Laundry
+views:
+  - title: Washing Machine
+    path: washer
+    icon: mdi:washing-machine
+    cards:
+
+      - type: section
+        label: Washer Status
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+
+          - type: entity
+            entity: binary_sensor.washer_child_lock
+            name: Child Lock
+
+          - type: entity
+            entity: binary_sensor.washer_remote_control
+            name: Remote Control
+
+          - type: entity
+            entity: sensor.washer_job_state
+            name: Job State
+
+          - type: entity
+            entity: sensor.washer_machine_state
+            name: Machine State
+
+          - type: entity
+            entity: sensor.washer_completion_time
+            name: Completion Time
+
+      - type: section
+        label: Washer Power
+
+      - type: entity
+        entity: binary_sensor.washer_power
+        name: Washer Power
+
+      - type: section
+        label: Energy Monitoring
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+
+          - type: entity
+            entity: sensor.washer_energy
+            name: Total Energy
+
+          - type: entity
+            entity: sensor.washer_energy_difference
+            name: Energy Difference
+
+          - type: entity
+            entity: sensor.washer_energy_saved
+            name: Energy Saved
+
+          - type: entity
+            entity: sensor.washer_power
+            name: Current Power
+
+          - type: entity
+            entity: sensor.washer_power_energy
+            name: Power Energy
+
