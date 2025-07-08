@@ -5,12 +5,6 @@
     - name: "Washer Remaining Time"
       unique_id: washer_remaining_time
       device_class: duration
-      attributes:
-        debug: >
-          {% set completion_time_str = states('sensor.washer_completion_time') %}
-          {% set completion_time = strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S%z') %}
-          {% set now_utc = utcnow() %}
-          completion_time_str={{completion_time_str}}, completion_time={{completion_time}}, now_utc={{now_utc}}
       state: >
         {% set completion_time_str = states('sensor.washer_completion_time') %}
         {% if completion_time_str in ['unavailable', 'unknown', 'none'] or not completion_time_str %}
@@ -29,3 +23,7 @@
             {{ '%02d:%02d' % (hours, minutes) }}
           {% endif %}
         {% endif %}
+      attributes:
+        debug: >
+          completion_time_str={{ states('sensor.washer_completion_time') }},
+          now_utc={{ utcnow() }}
