@@ -22,6 +22,4 @@
             {{ '%02d:%02d' % (hours, minutes) }}
           {% endif %}
         {% endif %}
-      attributes:
-        debug: >
-          completion_time_str={{ states('sensor.washer_completion_time') }}, now_utc={{ utcnow() }}
+
