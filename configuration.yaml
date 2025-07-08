@@ -32,8 +32,8 @@ lovelace:
       show_in_sidebar: true
 
 frontend:
-  themes: !include_dir_merge_named themes
-template: !include_dir_merge_named templates/
+  themes: !include_dir_merge_named themes/
+template: !include_dir_merge_list templates/
 script: !include_dir_merge_named scripts/
 automation: !include_dir_merge_named automations/
 scene: !include_dir_merge_named scenes/
