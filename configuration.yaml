@@ -31,13 +31,22 @@ lovelace:
       icon: mdi:flash
       show_in_sidebar: true
 
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+
 frontend:
   themes: !include_dir_merge_named themes/
-template:
-  - sensor: !include_dir_merge_list templates/
+
+template: !include_dir_merge_list templates/
+
 script: !include_dir_merge_named scripts/
+
 automation: !include_dir_merge_named automations/
+
 scene: !include_dir_merge_named scenes/
+
 utility_meter: !include_dir_merge_named utility_meter/
 
 http:
