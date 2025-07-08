@@ -8,18 +8,21 @@
       state: >
         {% set completion_time_str = states('sensor.washer_completion_time') %}
         {% set debug = "completion_time_str: " ~ completion_time_str %}
-        {% set completion_time = strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S%z') %}
-        {% set now_utc = utcnow() %}
-        {% set debug = debug ~ ", completion_time: " ~ completion_time ~ ", now_utc: " ~ now_utc %}
-        {% if completion_time_str in ['unavailable', 'unknown', 'none'] %}
-          unknown
-        {% elif not completion_time %}
-          unknown
-        {% elif completion_time < now_utc %}
-          00:00
+        {% if completion_time_str in ['unavailable', 'unknown', 'none'] or not completion_time_str %}
+          {{ debug ~ ", output: unknown" }}
         {% else %}
-          {% set time_diff = (completion_time - now_utc).total_seconds() | int %}
-          {% set hours = (time_diff // 3600) | int %}
-          {% set minutes = ((time_diff % 3600) // 60) | int %}
-          {{ debug ~ ", result: " ~ '%02d:%02d' % (hours, minutes) }}
+          {% set completion_time = strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S%z') %}
+          {% set debug = debug ~ ", completion_time: " ~ completion_time %}
+          {% set now_utc = utcnow() %}
+          {% set debug = debug ~ ", now_utc: " ~ now_utc %}
+          {% if not completion_time %}
+            {{ debug ~ ", output: unknown (parse fail)" }}
+          {% elif completion_time < now_utc %}
+            {{ debug ~ ", output: 00:00" }}
+          {% else %}
+            {% set time_diff = (completion_time - now_utc).total_seconds() | int %}
+            {% set hours = (time_diff // 3600) | int %}
+            {% set minutes = ((time_diff % 3600) // 60) | int %}
+            {{ debug ~ ", output: " ~ '%02d:%02d' % (hours, minutes) }}
+          {% endif %}
         {% endif %}
