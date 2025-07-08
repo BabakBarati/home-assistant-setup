@@ -1,6 +1,7 @@
 - unique_id: "washer_remaining_time"
   name: "Washer Remaining Time"
   state: >
+    {% set _ = states('sensor.time') %}
     {% set completion_time_str = states('sensor.washer_completion_time') %}
     {% if completion_time_str in ['unavailable', 'unknown', 'none'] %}
       unknown
