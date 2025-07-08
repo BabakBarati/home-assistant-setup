@@ -2,10 +2,10 @@
   name: "Washer Remaining Time"
   state: >
     {% set completion_time_str = states('sensor.washer_completion_time') %}
-    {% if completion_time_str == 'unavailable' or completion_time_str == 'unknown' %}
+    {% if completion_time_str in ['unavailable', 'unknown', 'none'] %}
       unknown
     {% else %}
-      {% set completion_time = as_datetime(completion_time_str) %}
+      {% set completion_time = strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S%z') %}
       {% set now_utc = utcnow() %}
       {% if completion_time < now_utc %}
         00:00
