@@ -1,20 +1,19 @@
-sensor:
-  - unique_id: "washer_remaining_time"
-    name: "Washer Remaining Time"
-    state: >
-      {% set completion_time_str = states('sensor.washer_completion_time') %}
-      {% if completion_time_str == 'unavailable' or completion_time_str == 'unknown' %}
-        unknown
+- unique_id: "washer_remaining_time"
+  name: "Washer Remaining Time"
+  state: >
+    {% set completion_time_str = states('sensor.washer_completion_time') %}
+    {% if completion_time_str == 'unavailable' or completion_time_str == 'unknown' %}
+      unknown
+    {% else %}
+      {% set completion_time = as_datetime(completion_time_str) %}
+      {% set now_utc = utcnow() %}
+      {% if completion_time < now_utc %}
+        00:00
       {% else %}
-        {% set completion_time = as_datetime(completion_time_str) %}
-        {% set now_utc = utcnow() %}
-        {% if completion_time < now_utc %}
-          00:00
-        {% else %}
-          {% set time_diff = (completion_time - now_utc).total_seconds() | int %}
-          {% set hours = (time_diff // 3600) | int %}
-          {% set minutes = ((time_diff % 3600) // 60) | int %}
-          {{ '%02d:%02d' % (hours, minutes) }}
-        {% endif %}
+        {% set time_diff = (completion_time - now_utc).total_seconds() | int %}
+        {% set hours = (time_diff // 3600) | int %}
+        {% set minutes = ((time_diff % 3600) // 60) | int %}
+        {{ '%02d:%02d' % (hours, minutes) }}
       {% endif %}
-    device_class: duration
+    {% endif %}
+  device_class: duration
