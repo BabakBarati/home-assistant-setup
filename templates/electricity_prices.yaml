@@ -1,5 +1,3 @@
-# templates/electricity_prices.yaml - Corrected Version
-
 sensor:
   - unique_id: current_electricity_price_vattenfall
     name: "Current Electricity Price Vattenfall"
