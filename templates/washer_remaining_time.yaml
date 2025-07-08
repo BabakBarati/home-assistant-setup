@@ -7,11 +7,11 @@ sensor:
         unknown
       {% else %}
         {% set completion_time = as_datetime(completion_time_str) %}
-        {% set now = now() %}
-        {% if completion_time < now %}
+        {% set now_utc = utcnow() %}
+        {% if completion_time < now_utc %}
           00:00
         {% else %}
-          {% set time_diff = (completion_time - now).total_seconds() | int %}
+          {% set time_diff = (completion_time - now_utc).total_seconds() | int %}
           {% set hours = (time_diff // 3600) | int %}
           {% set minutes = ((time_diff % 3600) // 60) | int %}
           {{ '%02d:%02d' % (hours, minutes) }}
