@@ -11,6 +11,8 @@ lovelace:
       type: module
     - url: /local/button-card.js
       type: module
+    - url: /local/hui-element.js
+      type: module
     # my custom resources
     - url: /local/vacuum-card.js
       type: module
@@ -22,6 +24,7 @@ lovelace:
       type: module
     - url: /local/philips-tower-fan-control.js?v=1.0.7
       type: module
+
 
   dashboards:
     electricity-insights:
@@ -52,8 +55,8 @@ utility_meter: !include_dir_merge_named utility_meter/
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.19.0.11 # The IP address of your reverse proxy
-    - 172.19.0.19
+    - 172.19.0.0/16
+    #- 172.19.0.8
   # Optionally, if you have a certificate and want to enforce SSL
   # ssl_certificate: /config/fullchain.pem
   # ssl_key: /config/privkey.pem
