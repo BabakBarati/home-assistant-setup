@@ -124,14 +124,14 @@ class AutoCard extends HTMLElement {
     getGridOptions() {
         return {
             // Default number of rows the card takes.
-            rows: 3,
+            rows: 6,
             // Default number of columns the card takes (out of 12).
             // Multiples of 3 (3, 6, 9, 12) are recommended for better layout.
             columns: 12,
             // Optional: Minimal and maximal row/column sizes.
-            min_rows: 3,
-            max_rows: 5,
-            min_columns: 2,
+            min_rows: 6,
+            max_rows: 9,
+            min_columns: 4,
             max_columns: 12,
         };
     }
@@ -157,7 +157,6 @@ class AutoCard extends HTMLElement {
             box-sizing: border-box;
             font-family: var(--mdc-typography-body2-font-family, sans-serif);
             color: ${this.gray};
-            margin: 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;

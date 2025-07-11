@@ -24,7 +24,7 @@ lovelace:
       type: module
     - url: /local/philips-tower-fan-control.js?v=1.0.7
       type: module
-    - url: /local/auto-card.js?v=1.0.0
+    - url: /local/auto-card.js?v=1.1.0
       type: module
 
 
