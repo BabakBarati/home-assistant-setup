@@ -1,5 +1,57 @@
-- id: '1750804738322'
-  alias: New automation
+- id: '1752615512763'
+  alias: Kitchen Lamp Toggle
+  description: ''
+  triggers:
+  - domain: mqtt
+    device_id: cc97697fb6abb76bec624f8de61ff454
+    type: action
+    subtype: 1_single
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      device_id: 584bd14e8a9afbc64675fb69a88862f9
+  mode: single
+- id: '1752615848328'
+  alias: Living Lamp Toggle
+  description: ''
+  triggers:
+  - domain: mqtt
+    device_id: cc97697fb6abb76bec624f8de61ff454
+    type: action
+    subtype: 2_single
+    metadata: {}
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.living_room_lamp
+  mode: single
+- id: '1752615951720'
+  alias: Living Lamp Toggle
+  description: ''
+  triggers:
+  - domain: mqtt
+    device_id: db014a4d631c9aaca57da297785e9f68
+    type: action
+    subtype: single
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.living_room_lamp
+  mode: single
+- id: '1752645824156'
+  alias: Dining Floor Lamp On
   description: ''
   triggers:
   - domain: mqtt
@@ -9,8 +61,26 @@
     trigger: device
   conditions: []
   actions:
-  - action: notify.notify
+  - action: light.turn_on
     metadata: {}
-    data:
-      title: test
+    data: {}
+    target:
+      entity_id: light.fittinq_smart_lighting
+  mode: single
+- id: '1752645885159'
+  alias: Dining Floor Lamp Off
+  description: ''
+  triggers:
+  - domain: mqtt
+    device_id: ec0be889be1499cfe5b05e5f3687aa7f
+    type: action
+    subtype: 'off'
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.fittinq_smart_lighting
   mode: single
