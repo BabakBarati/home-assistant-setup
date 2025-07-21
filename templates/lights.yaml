@@ -1,5 +1,5 @@
 - sensor:
-  - name: "Number Lights On"
+    name: "Number Lights On"
     unique_id: number_lights_on
     icon: mdi:lightbulb-group
     unit_of_measurement: "lights"
