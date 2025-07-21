@@ -1,0 +1,32 @@
+- sensor:
+  - name: "Number Lights On"
+  - unique_id: number_lights_on
+  - icon: mdi:lightbulb-group
+  - unit_of_measurement: "lights"
+  - state: >
+      {{ states.light
+        | rejectattr('entity_id', 'in', label_entities('Group'))
+        | rejectattr('entity_id', 'in', label_entities('Dummylight'))
+        | rejectattr('entity_id', 'in', 'light.office_lamps')
+        | rejectattr('entity_id', 'in', 'light.philips_air_purifier_display_backlight')
+        | rejectattr('entity_id', 'in', 'light.light.philips_air_purifier_light_brightness')
+        | selectattr('state', 'eq', 'on')
+        | list
+        | count
+      }}
+- sensor:
+  - name: "Number Lights Off"
+  - unique_id: number_lights_off
+  - unit_of_measurement: "lights"
+  - icon: mdi:lightbulb-group-off
+  - state: >
+      {{ states.light
+        | rejectattr('entity_id', 'in', label_entities('Group'))
+        | rejectattr('entity_id', 'in', label_entities('Dummylight'))
+        | rejectattr('entity_id', 'in', 'light.office_lamps')
+        | rejectattr('entity_id', 'in', 'light.philips_air_purifier_display_backlight')
+        | rejectattr('entity_id', 'in', 'light.light.philips_air_purifier_light_brightness')
+        | selectattr('state', 'eq', 'off')
+        | list
+        | count
+      }}
