@@ -1,9 +1,9 @@
 - sensor:
   - name: "Number Lights On"
-  - unique_id: number_lights_on
-  - icon: mdi:lightbulb-group
-  - unit_of_measurement: "lights"
-  - state: >
+    unique_id: number_lights_on
+    icon: mdi:lightbulb-group
+    unit_of_measurement: "lights"
+    state: >
       {{ states.light
         | rejectattr('entity_id', 'in', label_entities('Group'))
         | rejectattr('entity_id', 'in', label_entities('Dummylight'))
@@ -15,11 +15,11 @@
         | count
       }}
 - sensor:
-  - name: "Number Lights Off"
-  - unique_id: number_lights_off
-  - unit_of_measurement: "lights"
-  - icon: mdi:lightbulb-group-off
-  - state: >
+    name: "Number Lights Off"
+    unique_id: number_lights_off
+    unit_of_measurement: "lights"
+    icon: mdi:lightbulb-group-off
+    state: >
       {{ states.light
         | rejectattr('entity_id', 'in', label_entities('Group'))
         | rejectattr('entity_id', 'in', label_entities('Dummylight'))
