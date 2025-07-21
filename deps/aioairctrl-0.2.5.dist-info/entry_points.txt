@@ -1,0 +1,2 @@
+[console_scripts]
+aioairctrl = aioairctrl.__main__:main

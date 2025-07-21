@@ -18,6 +18,8 @@ lovelace:
       type: module
     - url: /local/hui-element.js
       type: module
+    - url: /local/community/universal-remote-card/universal-remote-card.min.js
+      type: module
     # my custom resources
     - url: /local/vacuum-card.js
       type: module

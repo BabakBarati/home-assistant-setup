@@ -33,12 +33,21 @@
     target:
       entity_id: light.living_room_lamp
   mode: single
-- id: '1752615951720'
-  alias: Living Lamp Toggle
+- id: '1752670458650'
+  alias: Living Floor Lamp Control
+  description: ''
+  use_blueprint:
+    path: ikea_switches/ikea_E1743-E2201-E2213_Z2M_control-light.yaml
+    input:
+      remote_devices:
+      - ec0be889be1499cfe5b05e5f3687aa7f
+      light: light.dining_floor_lamp
+- id: '1752784628173'
+  alias: Office Lamps Toggle
   description: ''
   triggers:
   - domain: mqtt
-    device_id: db014a4d631c9aaca57da297785e9f68
+    device_id: 12534a8e94cfe83657ea885d1346fbce
     type: action
     subtype: single
     trigger: device
@@ -48,39 +57,63 @@
     metadata: {}
     data: {}
     target:
-      entity_id: light.living_room_lamp
+      device_id:
+      - cb2716cdafb3d8879215f058a5f06c3b
+      - 9b0afb32d0e9df1e8cc15591a5345f4e
   mode: single
-- id: '1752645824156'
-  alias: Dining Floor Lamp On
+- id: '1752823039449'
+  alias: Master Bedroom Lamp Toggle
   description: ''
   triggers:
   - domain: mqtt
-    device_id: ec0be889be1499cfe5b05e5f3687aa7f
+    device_id: 49c2d6d45b6cdfdc101d0f94893c91ae
     type: action
-    subtype: 'on'
+    subtype: single
+    metadata: {}
     trigger: device
   conditions: []
   actions:
-  - action: light.turn_on
+  - action: light.toggle
     metadata: {}
     data: {}
     target:
-      entity_id: light.fittinq_smart_lighting
+      device_id: 294aeb65db48c0aa5cd939cee761371e
   mode: single
-- id: '1752645885159'
-  alias: Dining Floor Lamp Off
+- id: '1752825220366'
+  alias: Living Room Lamp Control
+  description: ''
+  use_blueprint:
+    path: TriggerHappy/zigbee2mqtt-control-light-entity-including-press-turn-with-tuya-moes-smart-knob-ers-10tzbvk-aa.yaml
+    input:
+      light_entity: light.living_room_lamp
+      mqtt_topic: ' zigbee2mqtt/Living Lamp Smart Knob'
+      kelvin_max: 6535
+- id: '1752828065394'
+  alias: Master Bedroom Lamp Control
+  description: ''
+  use_blueprint:
+    path: TriggerHappy/zigbee2mqtt-control-light-entity-including-press-turn-with-tuya-moes-smart-knob-ers-10tzbvk-aa.yaml
+    input:
+      mqtt_topic: zigbee2mqtt/Master Bedroom Smart Knob
+      light_entity: light.master_bedroom_lamp
+      kelvin_max: 6535
+- id: '1753021379441'
+  alias: Office Lamps Toggle 2
   description: ''
   triggers:
   - domain: mqtt
-    device_id: ec0be889be1499cfe5b05e5f3687aa7f
+    device_id: 99f200ea4eceef5ad19763dbd611b46f
     type: action
-    subtype: 'off'
+    subtype: single
+    metadata: {}
     trigger: device
   conditions: []
   actions:
-  - action: light.turn_off
+  - action: light.toggle
     metadata: {}
     data: {}
     target:
-      entity_id: light.fittinq_smart_lighting
+      device_id:
+      - cb2716cdafb3d8879215f058a5f06c3b
+      - 9b0afb32d0e9df1e8cc15591a5345f4e
   mode: single

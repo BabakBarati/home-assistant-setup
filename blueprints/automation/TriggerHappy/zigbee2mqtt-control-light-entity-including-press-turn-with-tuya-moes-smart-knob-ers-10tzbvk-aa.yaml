@@ -1,0 +1,206 @@
+blueprint:
+  name: Control light entity with Tuya ERS-10TZBVK-AA Smart Knob (command mode)
+  description: "Blueprint to easily configure the **Tuya ERS-10TZBVK-AA Smart Knob**
+    to control a light entity when integrated into Home Assistant using **Zigbee2MQTT**.\n\nIt
+    is based directly on the MQTT-Topic as this turned out to be the most responsive
+    way to automate this dimmer device.\n\nAlso see [the device page](https://www.zigbee2mqtt.io/devices/ERS-10TZBVK-AA.html)
+    on the Z2M homepage for more information.\n\n**Important Note:** The device needs
+    to be in **COMMAND mode** – the other one being EVENT mode – for the automation
+    to work. However the blueprint will automatically check for the correct mode and
+    should keep the device in COMMAND.\nDo a triple button press to change mode manually.
+    You can also see the current mode in the corresponding HA device page or in Zigbee2MQTT.\n\n<details>
+    <summary><b>Actions</b></summary>\n\n - Press button: Toggle light\n \n - Turn
+    left/right: Change brightness / dim light\n \n - Press, hold **and then** turn
+    left/right: Change color temperature\n</details>\n\n<details> <summary><b>Features</b></summary>\n\n
+    - The automation checks on correct mode of the smart knob and will keep it in
+    **COMMAND* mode.\n \n - The maximum and especially minimum brightness is adjustable
+    and therefore can prevent switching off the light by dimming too low – just set
+    minimum brightness >0.\n \n - Minimum and maximum color temperature can be set.
+    See [here](https://en.wikipedia.org/wiki/Color_temperature) to match Kelvin values
+    with your desired effect.\n \n - Fine-tune the resolution of the color temperature
+    adjustments through step multiplier (1-10).\n</details>\n"
+  source_url: https://community.home-assistant.io/t/zigbee2mqtt-control-light-entity-including-press-turn-with-tuya-moes-smart-knob-ers-10tzbvk-aa/787779
+  domain: automation
+  input:
+    mqtt_topic:
+      name: MQTT Topic
+      description: The parent MQTT topic of the smart knob (e.g. 'zigbee2mqtt/Tuya
+        Smart Knob)'. Typically the last part will be the given name of your device.
+      selector:
+        text: {}
+    light_entity:
+      name: Light Entity
+      description: The light to be controlled.
+      selector:
+        entity:
+          filter:
+          - domain:
+            - light
+          multiple: false
+    step_multiplier:
+      name: Step Multiplier
+      description: Multiplier for color temperature change. I.e. in which resolution
+        do you want to fine tune color temperature? (1 = very slow change; 10 = fast
+        change)
+      default: 5
+      selector:
+        number:
+          min: 1.0
+          max: 10.0
+          mode: slider
+          step: 1.0
+    kelvin_min:
+      name: Minimum Color Temperature (Kelvin)
+      description: The minimum color temperature in Kelvin. (Default 2000)
+      default: 2000
+      selector:
+        number:
+          min: 1000.0
+          max: 6500.0
+          mode: slider
+          step: 1.0
+    kelvin_max:
+      name: Maximum Color Temperature (Kelvin)
+      description: The maximum color temperature in Kelvin. (Default 6500)
+      default: 6500
+      selector:
+        number:
+          min: 1000.0
+          max: 6500.0
+          mode: slider
+          step: 1.0
+    min_brightness:
+      name: Minimum Brightness (%)
+      description: The minimum brightness you want the light to dim. Set 0 to be able
+        to turn off the light with the dimmer. (Default 1)
+      default: 1
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+    max_brightness:
+      name: Maximum Brightness (%)
+      description: The maximum brightness you want the light to dim. (Default 100)
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+    light_transition:
+      name: Light Transition
+      description: Configure light transition. Set to 0 to disable transition. (Default
+        0.2)
+      default: 0.2
+      selector:
+        number:
+          min: 0.0
+          max: 4.0
+          step: 0.1
+          unit_of_measurement: seconds
+          mode: slider
+    automation_mode:
+      name: Automation Mode
+      description: Experiment with the different modes if your experience does not
+        feel smooth enough. Normally single should work alright. (Also see https://www.home-assistant.io/docs/automation/modes/
+        )
+      default: single
+      selector:
+        select:
+          mode: dropdown
+          options:
+          - single
+          - restart
+          - queued
+          - parallel
+          multiple: false
+          sort: false
+          custom_value: false
+trigger:
+- platform: mqtt
+  topic: !input mqtt_topic
+condition: []
+action:
+- variables:
+    command: '{{ trigger.payload_json.action }}'
+    step_size: '{{ trigger.payload_json.action_step_size }}'
+    step_percent: '{% if is_number(step_size) %} {{ (step_size / 2 ) | int }} {% else
+      %} {{ 0 }} {% endif %}'
+    step_multiplier: !input step_multiplier
+    kelvin_min: !input kelvin_min
+    kelvin_max: !input kelvin_max
+    min_brightness: !input min_brightness
+    max_brightness: !input max_brightness
+    light_transition: !input light_transition
+    mqtt_topic: !input mqtt_topic
+    light_entity: !input light_entity
+- choose:
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''single'' or command == ''double'' or command
+        == ''rotate_left'' or command == ''rotate_right'' or command == ''hold'' }}'
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: '{{ mqtt_topic }}/set'
+        payload: '{"operation_mode": "command"}'
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''toggle'' }}'
+    sequence:
+    - service: light.toggle
+      target:
+        entity_id: !input light_entity
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''brightness_step_down'' }}'
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: !input light_entity
+      data:
+        brightness: '{% set current_brightness = state_attr(light_entity, ''brightness'')
+          | int %}  {% set new_brightness = current_brightness - (step_percent * 255
+          / 100) %} {{ [new_brightness, min_brightness] | max }}'
+        transition: !input light_transition
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''brightness_step_up'' }}'
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: !input light_entity
+      data:
+        brightness: '{% set current_brightness = state_attr(light_entity, ''brightness'')
+          | int %}  {% set new_brightness = current_brightness + (step_percent * 255
+          / 100) %} {{ [new_brightness, max_brightness] | max }}'
+        transition: !input light_transition
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''color_temperature_step_up'' }}'
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: !input light_entity
+      data:
+        kelvin: "{% set current_kelvin = state_attr(light_entity, 'color_temp_kelvin')
+          %} {% if current_kelvin is not none %}\n  {{ [current_kelvin + (step_percent
+          * step_multiplier), kelvin_max] | min }}\n{% else %}\n  2800\n{% endif %}"
+        transition: !input light_transition
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''color_temperature_step_down'' }}'
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: !input light_entity
+      data:
+        kelvin: "{% set current_kelvin = state_attr(light_entity, 'color_temp_kelvin')
+          %} {% if current_kelvin is not none %}\n  {{ [current_kelvin - (step_percent
+          * step_multiplier), kelvin_min] | max }}\n{% else %}\n  2800\n{% endif %}"
+        transition: !input light_transition
+mode: !input automation_mode
+max_exceeded: silent
