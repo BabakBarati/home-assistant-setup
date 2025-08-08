@@ -51,15 +51,18 @@
     type: action
     subtype: single
     trigger: device
+  - domain: mqtt
+    device_id: 99f200ea4eceef5ad19763dbd611b46f
+    type: action
+    subtype: single
+    trigger: device
   conditions: []
   actions:
   - action: light.toggle
     metadata: {}
     data: {}
     target:
-      device_id:
-      - cb2716cdafb3d8879215f058a5f06c3b
-      - 9b0afb32d0e9df1e8cc15591a5345f4e
+      entity_id: light.office_lamps
   mode: single
 - id: '1752823039449'
   alias: Master Bedroom Lamp Toggle
