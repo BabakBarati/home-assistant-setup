@@ -1,0 +1,11 @@
+strelitzia_nicolai:
+  sensors:
+    moisture: sensor.strelitzia_soil_moisture
+    battery: sensor.strelitzia_battery
+    temperature: sensor.strelitzia_temperature
+    # conductivity: sensor.strelitzia_conductivity
+    # brightness: sensor.strelitzia_brightness
+  min_moisture: 15
+  max_moisture: 60
+  min_temperature: 12
+  max_temperature: 35
