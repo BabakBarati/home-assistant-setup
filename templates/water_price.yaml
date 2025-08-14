@@ -1,6 +1,6 @@
--sensor:
+- sensor:
   - name: "Water Tariff"
-    unique_id: water_tariff
+    unique_id: dce9c0d2-2f41-442f-b818-2c7dd44b846b
     unit_of_measurement: "EUR/m³"
     state_class: "measurement"
     device_class: "monetary"
