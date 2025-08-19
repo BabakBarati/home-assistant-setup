@@ -49,6 +49,7 @@ sensor:
       - 'time'
   - platform: rest
     name: Watermeter Total Volume
+    unique_id: watermeter_total_volume
     resource: http://192.168.178.253/api/v1/data
     value_template: "{{ value_json.total_liter_m3 }}"
     unit_of_measurement: "m³"
@@ -58,6 +59,7 @@ sensor:
     scan_interval: 30
   - platform: rest
     name: Watermeter Current Flow
+    unique_id: watermeter_current_flow
     resource: http://192.168.178.253/api/v1/data
     value_template: "{{ value_json.active_liter_lpm }}"
     unit_of_measurement: "L/min"
@@ -67,6 +69,7 @@ sensor:
     scan_interval: 30
   - platform: rest
     name: Watermeter WiFi Strength
+    unique_id: watermeter_wifi_strength
     resource: http://192.168.178.253/api/v1/data
     value_template: "{{ value_json.wifi_strength }}"
     unit_of_measurement: "%"
@@ -76,6 +79,7 @@ sensor:
     scan_interval: 60
   - platform: rest
     name: Watermeter Total Offset
+    unique_id: watermeter_total_offset
     resource: http://192.168.178.253/api/v1/data
     value_template: "{{ value_json.total_liter_offset_m3 }}"
     unit_of_measurement: "m³"
